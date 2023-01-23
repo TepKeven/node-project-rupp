@@ -1,5 +1,42 @@
 {
   "dependencies": {
-    "express": "^4.18.2"
-  }
+    "-": "^0.0.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "g": "^2.0.1",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "sequelize": "^6.28.0"
+  },
+  "name": "node-rupp",
+  "description": "Node JS Project for RUPP Final Year",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "sequelize-cli": "^6.5.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "node migrations/migration.js",
+    "drop": "node migrations/drop.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TepKeven/node-project-rupp.git"
+  },
+  "keywords": [
+    "Node",
+    "RUPP",
+    "Project"
+  ],
+  "author": "Keven Tep",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TepKeven/node-project-rupp/issues"
+  },
+  "homepage": "https://github.com/TepKeven/node-project-rupp#readme"
 }
