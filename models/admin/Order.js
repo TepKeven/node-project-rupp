@@ -1,5 +1,11 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const database = require("../../database");
+const Country = require('./Country');
+const Currency = require('./Currency');
+const Customer = require('./Customer');
+const OrderStatus = require('./OrderStatus');
+const Payment = require('./Payment');
+const Shipment = require('./Shipment');
 require('dotenv').config();
 const date = new Date();
 
@@ -32,6 +38,15 @@ const Order = database.define("orders", {
         defaultValue: process.env.STORE_NAME,
         allowNull: false
     },
+    customer_id: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: true,
+        references: {
+            model: Customer,
+            key: "customer_id"
+        }
+    },
     first_name: {
         type: DataTypes.STRING(32),
         allowNull: false
@@ -39,6 +54,17 @@ const Order = database.define("orders", {
     last_name: {
         type: DataTypes.STRING(32),
         allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            isEmail: true
+        }
+    },
+    telephone: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     company: {
         type: DataTypes.STRING(60),
@@ -58,15 +84,27 @@ const Order = database.define("orders", {
     },
     country_id: {
         type: DataTypes.INTEGER(11),
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: Country,
+            key: "country_id"
+        }
     },
     payment_id: {
         type: DataTypes.INTEGER(11),
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: Payment,
+            key: "payment_id"
+        }
     },
     shipping_id: {
         type: DataTypes.INTEGER(11),
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: Shipment,
+            key: "shipping_id"
+        }
     },
     total: {
         type: DataTypes.DECIMAL(15,4),
@@ -76,7 +114,11 @@ const Order = database.define("orders", {
     order_status_id: {
         type: DataTypes.INTEGER(11),
         defaultValue: 1,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: OrderStatus,
+            key: "order_status_id"
+        }
     },
     tracking: {
         type: DataTypes.STRING,
@@ -91,7 +133,11 @@ const Order = database.define("orders", {
     currency_id: {
         type: DataTypes.INTEGER(11),
         defaultValue: 1,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: Currency,
+            key: "currency_id"
+        }
     },
     ip: {
         type: DataTypes.STRING(100),

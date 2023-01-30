@@ -1,5 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const database = require("../../database");
+const Manufacturer = require('./Manufacturer');
+const StockStatus = require('./StockStatus');
+const TaxClass = require('./TaxClass');
 
 const Product = database.define("products", {
 
@@ -20,6 +23,10 @@ const Product = database.define("products", {
     stock_status_id: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
+        references: {
+            model: StockStatus,
+            key: "stock_status_id"
+        }
     },
     image: {
         type: DataTypes.STRING,
@@ -27,7 +34,11 @@ const Product = database.define("products", {
     },
     manufacturer_id: {
         type: DataTypes.INTEGER(11),
-        allowNull: true
+        allowNull: true,
+        references: {
+            model: Manufacturer,
+            key: "manufacturer_id"
+        }
     },
     price: {
         type: DataTypes.DECIMAL(15,4),
@@ -36,7 +47,11 @@ const Product = database.define("products", {
     },
     tax_class_id: {
         type: DataTypes.INTEGER(11),
-        allowNull: true
+        allowNull: true,
+        references: {
+            model: TaxClass,
+            key: "tax_class_id"
+        }
     },
     subtract: {
         type: DataTypes.TINYINT(1),

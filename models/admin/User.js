@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const database = require("../../database");
+const UserRole = require("./UserRole")
 
 const User = database.define("users", {
     
@@ -9,11 +10,15 @@ const User = database.define("users", {
         allowNull: false,
         primaryKey: true
     },
-    // user_group_id:{
-    //     type: DataTypes.INTEGER(11),
-    //     defaultValue: 1,
-    //     allowNull: false
-    // },
+    user_role_id:{
+        type: DataTypes.INTEGER(11),
+        defaultValue: 1,
+        allowNull: false,
+        references:{
+            model: UserRole,
+            key: "user_role_id"
+        }
+    },
     username: {
         type: DataTypes.STRING(100),
         allowNull: false

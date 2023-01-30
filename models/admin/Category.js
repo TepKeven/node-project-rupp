@@ -34,6 +34,6 @@ const Category = database.define("category", {
         allowNull: false
     },
     
- },{modelName: "category"});
+ });
  
  module.exports = Category;

@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const database = require("../../database");
+const CustomerGroup = require("./CustomerGroup")
 
 const Customer = database.define("customers", {
     
@@ -9,11 +10,15 @@ const Customer = database.define("customers", {
         allowNull: false,
         primaryKey: true
     },
-    // customer_group_id:{
-    //     type: DataTypes.INTEGER,
-    //     defaultValue: 1,
-    //     allowNull: false
-    // },
+    customer_group_id:{
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+        allowNull: false,
+        references:{
+            model: CustomerGroup,
+            key: "customer_group_id"
+        }
+    },
     store_id: {
         type: DataTypes.INTEGER,
         defaultValue: 1,
@@ -42,6 +47,10 @@ const Customer = database.define("customers", {
     telephone: {
         type: DataTypes.STRING(32),
         allowNull: false
+    },
+    image: {
+        type: DataTypes.STRING,
+        allowNull: true
     },
     password: {
         type: DataTypes.STRING,

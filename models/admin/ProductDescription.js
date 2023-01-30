@@ -27,6 +27,7 @@ const ProductDescription = database.define("product_description", {
     },
     tag: {
         type: DataTypes.TEXT,
+        defaultValue: "",
         allowNull: false,
     },
     meta_title: {

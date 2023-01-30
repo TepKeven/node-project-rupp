@@ -10,6 +10,17 @@ const User = require("../models/admin/User")
 const UserRole = require("../models/admin/UserRole");
 const DashboardItem = require("../models/admin/DashboardItem");
 const CategoryDescription = require("../models/admin/CategoryDescription");
+const Manufacturer = require("../models/admin/Manufacturer");
+const stockStatus = require("../models/admin/StockStatus");
+const TaxClass = require("../models/admin/TaxClass");
+const ProductToCategory = require("../models/admin/ProductToCategory")
+const OrderProduct = require("../models/admin/OrderProduct")
+const Address = require("../models/admin/Address");
+const Currency = require("../models/admin/Currency")
+const Country = require("../models/admin/Country")
+const OrderStatus = require("../models/admin/OrderStatus")
+const Payment = require("../models/admin/Payment")
+const Shipment = require("../models/admin/Shipment")
 
 database
   .drop()

@@ -2,7 +2,12 @@ const Product = require("../../models/admin/Product")
 const ProductDescription = require("../../models/admin/ProductDescription");
 const {categoryDescriptionAssoc, productDescriptionAssoc} = require("./mainController")
 const path = require("path")
-const fs = require("fs")
+const fs = require("fs");
+const Category = require("../../models/admin/Category");
+const Manufacturer = require("../../models/admin/Manufacturer");
+const StockStatus = require("../../models/admin/StockStatus");
+const TaxClass = require("../../models/admin/TaxClass");
+const ProductToCategory = require("../../models/admin/ProductToCategory");
 
 // get
 const getProducts = async (req,res,next) => {
@@ -26,6 +31,7 @@ const getProducts = async (req,res,next) => {
 
 // get by id
 const getProductById = async  (req,res,next) => {
+
    var product_id = req.params.product_id
    const product = await Product.findByPk(
       product_id,
@@ -36,15 +42,52 @@ const getProductById = async  (req,res,next) => {
       include: [categoryDescriptionAssoc],
    })
 
+   const taxClasses = await TaxClass.findAll()
+   const stockStatuses = await StockStatus.findAll()
+   const manufacturers = await Manufacturer.findAll()
+   const product_to_category_id = await ProductToCategory.findAll({
+      where: {
+         product_id: product_id
+      },
+      attributes:["category_id"]
+   })
+
    res.status(200).json({
       product: product,
-      categoryList: categories
+      categories: categories,
+      taxClasses: taxClasses,
+      stockStatuses: stockStatuses,
+      manufacturers: manufacturers,
+      product_to_category_id: product_to_category_id.map(item => item.category_id)
    })
 }
 
-// add
-const addProduct = async (req,res,next) => {
 
+// Add GET Request 
+const addProductGET = async (req,res,next) => {
+
+   const categories = await Category.findAll({
+      include: [categoryDescriptionAssoc],
+   })
+
+   const manufacturers = await Manufacturer.findAll()
+   const stock_statuses = await StockStatus.findAll()
+   const tax_classes = await TaxClass.findAll();
+
+   res.status(200).json({
+      categories: categories,
+      manufacturers: manufacturers,
+      stock_statuses: stock_statuses,
+      tax_classes: tax_classes
+   })
+}
+
+
+
+// Add POST Request
+const addProductPOST = async (req,res,next) => {
+
+   var product_to_category_list = []
    var request = req.body
    var file = req.file
 
@@ -55,38 +98,59 @@ const addProduct = async (req,res,next) => {
    const product = await Product.create({
       model: request.product_model,
       quantity: request.product_quantity,
-      stock_status_id: request.product_stock_status_id,
       image: file == undefined ? "" : file.filename, 
-      manufacturer_id: request.product_manufacturer_id,
       price: request.product_price,
-      tax_class_id: request.product_tax_class_id,
       subtract: request.product_subtract,
       sort_order: request.product_sort_order,
       status: request.product_status,
-      category_description_assoc: request.product_description
+      product_description_assoc: request.product_description,
+      manufacturer_id: request.product_manufacturer_id,
+      stock_status_id: request.product_stock_status_id,
+      tax_class_id: request.product_tax_class_id
    }, {
       include: [{
         association: productDescriptionAssoc,
         as: 'product_description_assoc'
-      }]
+      },
+      ]
    })
 
-   res.status(200).json(product)
+   request.product_category_id.map(category_id => {
+      product_to_category_list.push({product_id: product.product_id, category_id: category_id})
+   })
 
+   const product_to_category_items = await ProductToCategory.bulkCreate(product_to_category_list)
+
+   res.status(200).json({
+      message: "success",
+      product_to_category_items: product_to_category_items,
+   })
 }
 
-// edit
-const editProduct = async (req,res,next) => {
+// Edit Product
+const editProductPOST = async (req,res,next) => {
 
-   // update category
+   // Update Product
+   var product_to_category_list = []
    var product_id = req.params.product_id;
-   var product = await Category.findByPk(product_id)
+   var product = await Product.findByPk(product_id)
+
    var request = req.body
    var file = req.file
-   var prevImage = path.join(__dirname, "../../", "assets/images/category/", product.image);
+   var prevImage = path.join(__dirname, "../../", "assets/images/product/", product.image);
 
    var updated_product = {
-      
+      model: request.product_model,
+      quantity: request.product_quantity,
+      image: file == undefined ? "" : file.filename, 
+      price: request.product_price,
+      subtract: request.product_subtract,
+      sort_order: request.product_sort_order,
+      status: request.product_status,
+      product_description_assoc: request.product_description,
+      manufacturer_id: request.product_manufacturer_id,
+      stock_status_id: request.product_stock_status_id,
+      tax_class_id: request.product_tax_class_id
    }
 
    if(fs.existsSync(prevImage) && file != undefined){
@@ -98,14 +162,13 @@ const editProduct = async (req,res,next) => {
    product = Object.assign(product,updated_product);
    await product.save();
 
-   // update category description 
 
-   var productDescriptions = await category.getProduct_description_assoc()
+   var productDescriptions = await product.getProduct_description_assoc()
    var description_id;
    var product_description
    var updated_description;
 
-   productDescriptions.map(async (productDescription,index) => {
+   productDescriptions.map(async (productDescription, index) => {
 
       description_id = productDescription.product_description_id;
       product_description = await ProductDescription.findByPk(description_id);
@@ -120,11 +183,24 @@ const editProduct = async (req,res,next) => {
       await product_description.save()
    })
 
-   res.status(200).json({"status": "success", "message": `${request.product_description[0].name} Updated Succesfully.`})   
+
+   const affectedRows = await ProductToCategory.destroy({
+      where: {
+         product_id: product_id
+      }
+   })
+
+   request.product_category_id.map(category_id => {
+      product_to_category_list.push({product_id: product_id, category_id: category_id})
+   })
+
+   const product_to_category_items = await ProductToCategory.bulkCreate(product_to_category_list)
+
+   res.status(200).json({"status": "success", "message": `${request.product_description[0].name} Updated Succesfully.`, category_list: product_to_category_items})   
    
 }
 
-// delete
+// Delete Product
 const deleteProducts = async (req,res,next) => {
 
    var request = req.body;
@@ -132,14 +208,14 @@ const deleteProducts = async (req,res,next) => {
    const deletedItems = await Product.findAll({
       attributes: ["image"],
       where: {
-         product_id: request.ids
+         product_id: request.product_ids
       }
    })
 
 
    deletedItems.map((item) => {
 
-      var imagePath = path.join(__dirname, "../../", "assets/images/category/", item.image);
+      var imagePath = path.join(__dirname, "../../", "assets/images/product/", item.image);
 
       if(fs.existsSync(imagePath)){
          fs.unlink(imagePath,(err) => {
@@ -150,20 +226,20 @@ const deleteProducts = async (req,res,next) => {
 
    const affected_rows = await ProductDescription.destroy({
       where: {
-         product_id: request.ids
+         product_id: request.product_ids
       }
    }).then(async (rows) => {
 
       return await Product.destroy({
          where: {
-            product_id: request.ids
+            product_id: request.product_ids
          },
       })
    })
 
    res.status(200).json({
-      "status": "success", "message": `Categories Deleted Succesfully.`, "affected_rows": affected_rows
+      "status": "success", "message": `Products Deleted Succesfully.`, "affected_rows": affected_rows
    })
 }
 
-module.exports= {getProducts, getProductById, addProduct, editProduct, deleteProducts};
+module.exports= {getProducts, getProductById, addProductGET, addProductPOST, editProductPOST, deleteProducts};

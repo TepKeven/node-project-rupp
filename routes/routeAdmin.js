@@ -4,6 +4,10 @@ const multer = require("multer");
 const path = require("path")
 const CategoryController = require("../controllers/admin/CategoryController")
 const ProductController = require("../controllers/admin/ProductController")
+const OrderController = require("../controllers/admin/OrderController")
+const CustomerController = require("../controllers/admin/CustomerController")
+const UserController = require("../controllers/admin/UserController")
+const SidebarController = require("../controllers/admin/SidebarController")
 
 const getMulterStorage = (destination_dir) => {
 
@@ -28,15 +32,50 @@ var productMulter = multer(
   {storage: getMulterStorage("./assets/images/product")}
 )
 
+var customerMulter = multer({
+  storage: getMulterStorage("./assets/images/customer")
+})
+
+var orderMulter = multer({
+  storage: getMulterStorage("./assets/images/order")
+})
 
 // Category
 routerAdmin.get("/category",CategoryController.getCategories);
-routerAdmin.post("/category/new", categoryMulter.single("category_image"), CategoryController.addCategory);
-routerAdmin.get("/category/:category_id",CategoryController.getCategoryById)
+routerAdmin.post("/category/new", categoryMulter.single("category_image"), CategoryController.addCategoryPOST);
+routerAdmin.get("/category/edit/:category_id",CategoryController.getCategoryById)
 routerAdmin.post("/category/edit/:category_id", categoryMulter.single("category_image") , CategoryController.editCategory)
 routerAdmin.post("/category/delete", CategoryController.deleteCategories)
 
 // Product
 routerAdmin.get("/product",ProductController.getProducts);
+routerAdmin.get("/product/new", ProductController.addProductGET)
+routerAdmin.post("/product/new", productMulter.single("product_image"), ProductController.addProductPOST)
+routerAdmin.get("/product/edit/:product_id", ProductController.getProductById)
+routerAdmin.post("/product/edit/:product_id", productMulter.single("product_image"), ProductController.editProductPOST)
+routerAdmin.post("/product/delete",  ProductController.deleteProducts)
+
+// Order
+routerAdmin.get("/order",OrderController.getOrders);
+routerAdmin.get("/order/new",OrderController.addOrderGET);
+routerAdmin.post("/order/new",orderMulter.single("order_image"), OrderController.addOrderPOST);
+routerAdmin.get("/order/edit/:order_id", OrderController.getOrderById);
+routerAdmin.post("/order/edit/:order_id",orderMulter.single("order_image"), OrderController.editOrderPOST);
+routerAdmin.post("/order/delete",  OrderController.deleteOrders)
+
+// Customer
+routerAdmin.get("/customer",CustomerController.getCustomers)
+routerAdmin.get("/customer/new",CustomerController.addCustomerGET)
+routerAdmin.post("/customer/new",customerMulter.single("customer_image"), CustomerController.addCustomerPOST)
+routerAdmin.get("/customer/edit/:customer_id", CustomerController.getCustomerById)
+routerAdmin.post("/customer/edit/:customer_id", customerMulter.single("customer_image"), CustomerController.editCustomerPOST)
+routerAdmin.post("/customer/delete",  CustomerController.deleteCustomers)
+
+// User
+routerAdmin.get("/user",UserController.getUsers)
+routerAdmin.get("/user/new",UserController.addUserGET)
+
+// Dashboard Items
+routerAdmin.get("/sidebar", SidebarController.getSidebarItems)
 
 module.exports=routerAdmin;

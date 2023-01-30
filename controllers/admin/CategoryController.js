@@ -43,7 +43,7 @@ const getCategoryById = async  (req,res,next) => {
 }
 
 // add
-const addCategory = async (req,res,next) => {
+const addCategoryPOST = async (req,res,next) => {
 
    var request = req.body
    var file = req.file
@@ -165,4 +165,4 @@ const deleteCategories = async (req,res,next) => {
    })
 }
 
-module.exports= {getCategories, getCategoryById, addCategory, editCategory, deleteCategories};
+module.exports= {getCategories, getCategoryById, addCategoryPOST, editCategory, deleteCategories};
