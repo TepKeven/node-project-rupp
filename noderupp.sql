@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2023 at 11:06 AM
+-- Generation Time: Feb 06, 2023 at 11:26 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 8.0.0
 
@@ -442,7 +442,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `customer_group_id`, `store_id`, `language_id`, `first_name`, `last_name`, `email`, `telephone`, `image`, `password`, `salt`, `cart`, `wishlist`, `newsletter`, `address_id`, `ip`, `status`, `createdAt`, `updatedAt`) VALUES
-(2, 1, 1, 1, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', '1674803528344.jpg', '$2b$10$nOuq6ytP.xhGv.sUJalxiuoNN8/Ju9MvdKrnveBvna/9CeDk3HC5O', '$2b$10$nOu', NULL, NULL, 1, 0, '::1', 1, '2023-01-27 07:12:08', '2023-01-27 07:12:08'),
+(2, 1, 1, 1, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', '1674803528344.jpg', '$2b$10$nOuq6ytP.xhGv.sUJalxiuoNN8/Ju9MvdKrnveBvna/9CeDk3HC5O', '$2b$10$nOu', NULL, NULL, 0, 0, '::1', 1, '2023-01-27 07:12:08', '2023-01-27 07:12:08'),
 (3, 1, 1, 1, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', '1674803681059.png', '$2b$10$LFg7MM8Fw4DKPsjhmgLTLes1Q0qzmT9377qm2Bga.oo4mbyjpTY8u', '$2b$10$LFg', NULL, NULL, 1, 0, '::1', 1, '2023-01-27 07:14:41', '2023-01-27 07:14:41');
 
 -- --------------------------------------------------------
@@ -490,12 +490,14 @@ CREATE TABLE `dashboard_item` (
 --
 
 INSERT INTO `dashboard_item` (`dashboard_item_id`, `name`, `href`, `icon`, `sort_order`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 'Dashboard', '/admin', 'bi bi-bar-chart-fill', 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1, 'Dashboard', '/admin/dashboard', 'bi bi-bar-chart-fill', 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (2, 'Category', '/admin/category', 'bi bi-box-fill', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 'Products', '/admin/product', 'bi bi-tags-fill', 2, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 'Orders', '/admin/order', 'bi bi-credit-card-2-back', 3, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (5, 'Customers', '/admin/customer', 'bi bi-person-circle', 4, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(6, 'Users', '/admin/user', 'bi bi-person-fill-check', 5, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(6, 'Users', '/admin/user', 'bi bi-person-fill-check', 5, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'User Roles', '/admin/userrole', 'fas fa-crown', 6, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, 'Slideshow', '/admin/slideshow', 'bi bi-person-fill-check', 7, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -563,7 +565,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `invoice_no`, `invoice_prefix`, `store_id`, `store_name`, `customer_id`, `first_name`, `last_name`, `email`, `telephone`, `company`, `address`, `city`, `country`, `country_id`, `payment_id`, `shipping_id`, `total`, `order_status_id`, `tracking`, `language_id`, `currency_id`, `ip`, `payslip`, `createdAt`, `updatedAt`) VALUES
-(2, 0, 'INV-2023-1-29-Keven', 1, 'RUPP Project', 2, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', 'IFL', 'Phnom Penh', 'Phnom Penh', 'Cambodia', 36, 1, 2, '600.0000', 8, '', 1, 1, '::1', '', '2023-01-29 02:34:39', '2023-01-29 02:34:39');
+(2, 0, 'INV-2023-1-29-Keven', 1, 'RUPP Project', 2, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', 'IFL', 'Phnom Penh', 'Phnom Penh', 'Cambodia', 36, 1, 2, '600.0000', 8, '', 1, 1, '::1', '', '2023-01-29 02:34:39', '2023-01-29 02:34:39'),
+(3, 0, 'INV-2023-1-29-Keven', 1, 'RUPP Project', 2, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', 'IFL', 'Phnom Penh', 'Phnom Penh', 'Burundi', 35, 1, 2, '600.0000', 8, '', 1, 1, '::1', '', '2023-01-02 17:42:20', '2023-02-02 17:42:36'),
+(4, 1, 'INV-2023-1-29-Keven', 1, 'RUPP Project', 2, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', 'IFL', 'Phnom Penh', 'Phnom Penh', 'Burundi', 35, 1, 2, '600.0000', 8, '', 1, 1, '::1', '', '2023-03-03 18:06:25', '2023-01-03 17:42:36'),
+(5, 1, 'INV-2023-1-29-Keven', 1, 'RUPP Project', 2, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', 'IFL', 'Phnom Penh', 'Phnom Penh', 'Burundi', 35, 1, 2, '600.0000', 8, '', 1, 1, '::1', '', '2023-03-03 18:06:25', '2023-01-03 17:42:36');
 
 -- --------------------------------------------------------
 
@@ -734,6 +739,30 @@ INSERT INTO `product_to_category` (`product_to_category_id`, `product_id`, `cate
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `session`
+--
+
+CREATE TABLE `session` (
+  `session_id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `data` text NOT NULL,
+  `is_customer` tinyint(1) NOT NULL DEFAULT 1,
+  `token` varchar(255) NOT NULL,
+  `expire` timestamp NOT NULL DEFAULT (current_timestamp() + interval 2 hour),
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `session`
+--
+
+INSERT INTO `session` (`session_id`, `email`, `data`, `is_customer`, `token`, `expire`, `createdAt`, `updatedAt`) VALUES
+(6, 'teapkevin@gmail.com', '{\"language\":\"en\",\"currency\":\"USD\",\"user_id\":2}', 0, 'aa8331d36f68e3964db196aab08483d7', '2023-02-05 07:35:04', '2023-02-05 03:45:57', '2023-02-05 05:35:04');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shipment`
 --
 
@@ -769,6 +798,7 @@ CREATE TABLE `slideshows` (
   `link` varchar(255) DEFAULT NULL,
   `image` varchar(255) NOT NULL,
   `sort_order` int(6) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -833,7 +863,7 @@ CREATE TABLE `users` (
   `user_role_id` int(11) NOT NULL DEFAULT 1,
   `username` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `salt` varchar(10) NOT NULL,
+  `salt` varchar(100) NOT NULL,
   `first_name` varchar(32) NOT NULL,
   `last_name` varchar(32) NOT NULL,
   `email` varchar(96) NOT NULL,
@@ -844,6 +874,13 @@ CREATE TABLE `users` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `user_role_id`, `username`, `password`, `salt`, `first_name`, `last_name`, `email`, `image`, `code`, `ip`, `status`, `createdAt`, `updatedAt`) VALUES
+(2, 1, 'Keven Tep', '$2b$10$MqMGGWp/uHOKLXGuQNT0jusACz3R.9ORbHsSmhQQSreTaA8sKYKQq', '$2b$10$MqMGGWp/uHOKLXGuQNT0ju', 'Keven', 'Tep', 'teapkevin@gmail.com', '1675354345336.png', '', '::1', 1, '2023-01-31 08:29:12', '2023-02-02 16:12:25');
 
 -- --------------------------------------------------------
 
@@ -983,6 +1020,12 @@ ALTER TABLE `product_to_category`
   ADD PRIMARY KEY (`product_to_category_id`);
 
 --
+-- Indexes for table `session`
+--
+ALTER TABLE `session`
+  ADD PRIMARY KEY (`session_id`);
+
+--
 -- Indexes for table `shipment`
 --
 ALTER TABLE `shipment`
@@ -1069,7 +1112,7 @@ ALTER TABLE `customer_group`
 -- AUTO_INCREMENT for table `dashboard_item`
 --
 ALTER TABLE `dashboard_item`
-  MODIFY `dashboard_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `dashboard_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `manufacturer`
@@ -1081,7 +1124,7 @@ ALTER TABLE `manufacturer`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `order_product`
@@ -1120,6 +1163,12 @@ ALTER TABLE `product_to_category`
   MODIFY `product_to_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `session`
+--
+ALTER TABLE `session`
+  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `shipment`
 --
 ALTER TABLE `shipment`
@@ -1129,7 +1178,7 @@ ALTER TABLE `shipment`
 -- AUTO_INCREMENT for table `slideshows`
 --
 ALTER TABLE `slideshows`
-  MODIFY `slideshow_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `slideshow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `stock_status`
@@ -1147,13 +1196,13 @@ ALTER TABLE `tax_class`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `user_role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
