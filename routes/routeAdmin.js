@@ -8,6 +8,11 @@ const OrderController = require("../controllers/admin/OrderController")
 const CustomerController = require("../controllers/admin/CustomerController")
 const UserController = require("../controllers/admin/UserController")
 const SidebarController = require("../controllers/admin/SidebarController")
+const UserRoleController = require("../controllers/admin/UserRoleController");
+const AuthController = require("../controllers/admin/AuthController")
+const SlideshowController = require("../controllers/admin/SlideshowController")
+const DashboardController = require("../controllers/admin/DashboardController")
+const AdminAuth = require("../middleware/Auth");
 
 const getMulterStorage = (destination_dir) => {
 
@@ -39,6 +44,27 @@ var customerMulter = multer({
 var orderMulter = multer({
   storage: getMulterStorage("./assets/images/order")
 })
+
+var userMulter = multer({
+  storage: getMulterStorage("./assets/images/user")
+})
+
+var userRoleMulter = multer({
+  storage: getMulterStorage("./assets/images/userrole")
+})
+
+var slideshowMulter = multer({
+  storage: getMulterStorage("./assets/images/slideshow")
+})
+
+// Sidebar
+routerAdmin.get("/sidebar", SidebarController.getSidebarItems)
+routerAdmin.post("/login", userMulter.single("user_image"), AuthController.userLogin)
+
+routerAdmin.use(AdminAuth.checkAuthValid)
+
+// Dashboard
+routerAdmin.get("/dashboard", DashboardController.getDashboardData)
 
 // Category
 routerAdmin.get("/category",CategoryController.getCategories);
@@ -74,8 +100,26 @@ routerAdmin.post("/customer/delete",  CustomerController.deleteCustomers)
 // User
 routerAdmin.get("/user",UserController.getUsers)
 routerAdmin.get("/user/new",UserController.addUserGET)
+routerAdmin.post("/user/new",userMulter.single("user_image"), UserController.addUserPOST)
+routerAdmin.get("/user/edit/:user_id",UserController.getUserById)
+routerAdmin.post("/user/edit/:user_id",userMulter.single("user_image"), UserController.editUserPOST)
+routerAdmin.post("/user/delete",  UserController.deleteUsers)
 
-// Dashboard Items
-routerAdmin.get("/sidebar", SidebarController.getSidebarItems)
+
+// User Roles 
+routerAdmin.get("/userrole",UserRoleController.getUserRoles)
+routerAdmin.get("/userrole/new",UserRoleController.addUserRoleGET)
+routerAdmin.post("/userrole/new",userRoleMulter.single("user_role_image"), UserRoleController.addUserRolePOST)
+routerAdmin.get("/userrole/edit/:user_role_id",UserRoleController.getUserRoleById)
+routerAdmin.post("/userrole/edit/:user_role_id",userRoleMulter.single("user_role_image"), UserRoleController.editUserRolePOST)
+routerAdmin.post("/userrole/delete",  UserRoleController.deleteUserRoles)
+
+// Slideshow 
+routerAdmin.get("/slideshow",SlideshowController.getSlideshows)
+routerAdmin.get("/slideshow/new",SlideshowController.addSlideshowGET)
+routerAdmin.post("/slideshow/new",slideshowMulter.single("slideshow_image"), SlideshowController.addSlideshowPOST)
+routerAdmin.get("/slideshow/edit/:slideshow_id",SlideshowController.getSlideshowById)
+routerAdmin.post("/slideshow/edit/:slideshow_id",slideshowMulter.single("slideshow_image"), SlideshowController.editSlideshowPOST)
+routerAdmin.post("/slideshow/delete",  SlideshowController.deleteSlideshows)
 
 module.exports=routerAdmin;

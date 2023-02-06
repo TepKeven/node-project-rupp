@@ -57,7 +57,7 @@ const Customer = database.define("customers", {
         allowNull: false
     },
     salt: {
-        type: DataTypes.STRING(10),
+        type: DataTypes.STRING(100),
         defaultValue: "12345", // hash(password + salt)
         allowNull: false
     },

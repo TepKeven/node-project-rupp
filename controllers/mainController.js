@@ -1,12 +1,12 @@
-const Category = require("../../models/admin/Category");
-const CategoryDescription = require("../../models/admin/CategoryDescription");
-const Manufacturer = require("../../models/admin/Manufacturer");
-const Order = require("../../models/admin/Order");
-const OrderProduct = require("../../models/admin/OrderProduct");
-const Product = require("../../models/admin/Product");
-const ProductDescription = require("../../models/admin/ProductDescription");
-const StockStatus = require("../../models/admin/StockStatus");
-const TaxClass = require("../../models/admin/TaxClass");
+const Category = require("../models/admin/Category");
+const CategoryDescription = require("../models/admin/CategoryDescription");
+const Manufacturer = require("../models/admin/Manufacturer");
+const Order = require("../models/admin/Order");
+const OrderProduct = require("../models/admin/OrderProduct");
+const Product = require("../models/admin/Product");
+const ProductDescription = require("../models/admin/ProductDescription");
+const StockStatus = require("../models/admin/StockStatus");
+const TaxClass = require("../models/admin/TaxClass");
 
 // Category has many CategoryDescription 
 const categoryDescriptionAssoc = Category.hasMany(CategoryDescription, {

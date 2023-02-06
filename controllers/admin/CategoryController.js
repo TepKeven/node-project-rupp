@@ -1,6 +1,6 @@
 const Category = require("../../models/admin/Category");
 const CategoryDescription = require("../../models/admin/CategoryDescription");
-const {categoryDescriptionAssoc} = require("./mainController")
+const {categoryDescriptionAssoc} = require("../mainController")
 const path = require("path")
 const fs = require("fs")
 

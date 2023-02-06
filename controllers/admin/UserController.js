@@ -1,9 +1,6 @@
 const path = require("path")
 const fs = require("fs");
-const Customer = require("../../models/admin/Customer");
-const CustomerGroup = require("../../models/admin/CustomerGroup");
 const bcrypt = require("bcrypt");
-const Address = require("../../models/admin/Address");
 const User = require("../../models/admin/User");
 const UserRole = require("../../models/admin/UserRole");
 
@@ -25,26 +22,19 @@ const getUsers = async (req,res,next) => {
    
 }
 
-// // get by id
-// const getCustomerById = async  (req,res,next) => {
+// get by id
+const getUserById = async  (req,res,next) => {
 
-//    var customer_id = req.params.customer_id
-//    const customer = await Customer.findByPk(customer_id)
+   var user_id = req.params.user_id
+   const user = await User.findByPk(user_id)
 
-//    const addresses = await Address.findAll({
-//       where: {
-//          customer_id: customer_id
-//       }
-//    })
+   const user_roles = await UserRole.findAll();
 
-//    const customer_groups = await CustomerGroup.findAll()
-
-//    res.status(200).json({
-//       customer: customer,
-//       addresses: addresses,
-//       customer_groups: customer_groups
-//    })
-// }
+   res.status(200).json({
+      user: user,
+      user_roles: user_roles
+   })
+}
 
 
 // Add GET Request 
@@ -59,154 +49,121 @@ const addUserGET = async (req,res,next) => {
 
 
 
-// // Add POST Request
-// const addCustomerPOST = async (req,res,next) => {
+// Add POST Request
+const addUserPOST = async (req,res,next) => {
 
-//    var request = req.body
-//    var file = req.file
-//    var saltString;
-//    var encrytedPassword;
-//    var addressList;
+   var request = req.body
+   var file = req.file
+   var saltString;
+   var encrytedPassword;
 
-//    encrytedPassword = await bcrypt.genSalt(10).then(salt => {
-//       saltString = salt
-//       return bcrypt.hash(request.customer_password, saltString)
-//    })
+   encrytedPassword = await bcrypt.genSalt(10).then(salt => {
+      saltString = salt
+      return bcrypt.hash(request.user_password, saltString)
+   })
 
-//    const customer = await Customer.create({
-//       customer_group_id: request.customer_customer_group_id,
-//       first_name: request.customer_firstname,
-//       last_name: request.customer_lastname,
-//       email: request.customer_email,
-//       telephone: request.customer_telephone,
-//       image: file == undefined ? "" : file.filename, 
-//       password: encrytedPassword,
-//       salt: saltString,
-//       newsletter: request.customer_newsletter,
-//       address_id: 0,
-//       ip: req.ip, 
-//       status: request.customer_status
-//    })
+   const user = await User.create({
+      user_role_id: request.user_user_role_id,
+      username: request.user_username,
+      password: encrytedPassword,
+      salt: saltString,
+      first_name: request.user_firstname,
+      last_name: request.user_lastname,
+      email: request.user_email,
+      image: file == undefined ? "" : file.filename, 
+      code: "",
+      ip: req.ip, 
+      status: request.user_status
+   })
 
-//    if(request.address_description != null){
+   res.status(200).json({
+      message: "success",
+      user: user,
+   })
+}
 
-//       request.address_description.map(address => {
-//          address.customer_id = customer.customer_id
-//       })
+// Edit User
+const editUserPOST = async (req,res,next) => {
 
-//       addressList = await Address.bulkCreate(request.address_description)
-//    }
+   // Update User
+   var user_id = req.params.user_id
+   var user = await User.findByPk(user_id)
+   var request = req.body
+   var file = req.file
+   var saltString;
+   var encrytedPassword;
+   var prevImage = path.join(__dirname, "../../", "assets/images/user/", user.image);
 
-//    res.status(200).json({
-//       message: "success",
-//       customer: customer,
-//       addresses: addressList
-//    })
-// }
+   var updated_user = {
+      user_role_id: request.user_user_role_id,
+      username: request.user_username,
+      first_name: request.user_firstname,
+      last_name: request.user_lastname,
+      email: request.user_email,
+      image: file == undefined ? "" : file.filename, 
+      code: "",
+      ip: req.ip, 
+      status: request.user_status
+   }
 
-// // Edit Customer
-// const editCustomerPOST = async (req,res,next) => {
-
-//    // Update Customer
-//    var customer_id = req.params.customer_id
-//    var customer = await Customer.findByPk(customer_id)
-//    var request = req.body
-//    var file = req.file
-//    var saltString;
-//    var encrytedPassword;
-//    var addressList;
-//    var prevImage = path.join(__dirname, "../../", "assets/images/customer/", customer.image);
-
-//    encrytedPassword = await bcrypt.genSalt(10).then(salt => {
-//       saltString = salt
-//       return bcrypt.hash(request.customer_password, saltString)
-//    })
-
-//    var updated_customer = {
-//       customer_group_id: request.customer_customer_group_id,
-//       first_name: request.customer_firstname,
-//       last_name: request.customer_lastname,
-//       email: request.customer_email,
-//       telephone: request.customer_telephone,
-//       image: file == undefined ? "" : file.filename, 
-//       password: encrytedPassword,
-//       salt: saltString,
-//       newsletter: request.customer_newsletter,
-//       address_id: 0,
-//       ip: req.ip, 
-//       status: request.customer_status
-//    }
-
-//    if(fs.existsSync(prevImage) && file != undefined){
-//       fs.unlink(prevImage,(err) => {
+   if(fs.existsSync(prevImage) && file != undefined){
+      fs.unlink(prevImage,(err) => {
             
-//       })
-//    }
+      })
+   }
 
-//    customer = Object.assign(customer,updated_customer);
-//    await customer.save();
-
-//    const affected_rows = await Address.destroy({
-//       where: {
-//          customer_id: customer_id
-//       }
-//    })
-
-//    if(request.address_description != null){
-
-//       request.address_description.map(address => {
-//          address.customer_id = customer_id
-//       })
-
-//       addressList = await Address.bulkCreate(request.address_description)
-//    }
-
-//    res.status(200).json({"status": "success", "message": `${customer.first_name} ${customer.last_name} Customer Updated Succesfully.`, addressList: addressList})   
+   user = Object.assign(user,updated_user);
    
-// }
+   if(request.user_password.length > 0){
 
-// // Delete Customer
-// const deleteCustomers = async (req,res,next) => {
+      encrytedPassword = await bcrypt.genSalt(10).then(salt => {
+         saltString = salt
+         return bcrypt.hash(request.user_password, saltString)
+      })
 
-//    var request = req.body;
+      user.password = encrytedPassword;
+      user.salt = saltString;
+   }
 
-//    const deletedItems = await Customer.findAll({
-//       attributes: ["image"],
-//       where: {
-//          customer_id: request.customer_ids
-//       }
-//    })
+   await user.save();
+
+   res.status(200).json({"status": "success", "message": `${user.first_name} ${user.last_name} User Updated Succesfully.`})   
+   
+}
+
+// Delete User
+const deleteUsers = async (req,res,next) => {
+
+   var request = req.body;
+
+   const deletedItems = await User.findAll({
+      attributes: ["image"],
+      where: {
+         user_id: request.user_ids
+      }
+   })
 
 
-//    deletedItems.map((item) => {
+   deletedItems.map((item) => {
 
-//       var imagePath = path.join(__dirname, "../../", "assets/images/customer/", item.image);
+      var imagePath = path.join(__dirname, "../../", "assets/images/user/", item.image);
 
-//       if(fs.existsSync(imagePath)){
-//          fs.unlink(imagePath,(err) => {
+      if(fs.existsSync(imagePath)){
+         fs.unlink(imagePath,(err) => {
             
-//          })
-//       }
-//    })
+         })
+      }
+   })
 
-//    const affected_rows = await Address.destroy({
-//       where: {
-//          customer_id: request.customer_ids
-//       }
-//    }).then(async (rows) => {
+   const affected_rows = await User.destroy({
+      where: {
+         user_id : request.user_ids
+      }
+   })
 
-//       return await Customer.destroy({
-//          where: {
-//             customer_id: request.customer_ids
-//          },
-//       })
-//    })
+   res.status(200).json({
+      "status": "success", "message": `${affected_rows} Users Deleted Succesfully.`, "affected_rows": affected_rows
+   })
+}
 
-
-
-//    res.status(200).json({
-//       "status": "success", "message": `${affected_rows} Customers Deleted Succesfully.`, "affected_rows": affected_rows
-//    })
-// }
-
-module.exports= {getUsers,addUserGET};
+module.exports= {getUsers,addUserGET, addUserPOST,getUserById, editUserPOST, deleteUsers};

@@ -1,5 +1,5 @@
 const Product = require("../../models/admin/Product")
-const {productDescriptionAssoc, orderProductAssoc} = require("./mainController")
+const {productDescriptionAssoc, orderProductAssoc} = require("../mainController")
 const TaxClass = require("../../models/admin/TaxClass");
 const Order = require("../../models/admin/Order");
 const Customer = require("../../models/admin/Customer");

@@ -24,9 +24,9 @@ const Slideshow = database.define("slideshows", {
     },
     link: {
         type: DataTypes.STRING,
-        validate: {
-            isUrl: true
-        }   
+        // validate: {
+        //     isUrl: true
+        // }   
     },
     image: {
         type: DataTypes.STRING,
@@ -34,6 +34,11 @@ const Slideshow = database.define("slideshows", {
     },
     sort_order: {
         type: DataTypes.INTEGER(6),
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.TINYINT(1),
+        defaultValue: 1,
         allowNull: false
     }
 

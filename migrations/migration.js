@@ -21,7 +21,7 @@ const Country = require("../models/admin/Country")
 const OrderStatus = require("../models/admin/OrderStatus")
 const Payment = require("../models/admin/Payment")
 const Shipment = require("../models/admin/Shipment")
-
+const Session = require("../models/admin/Session")
 
 Customer.hasMany(Order, {
   foreignKey: {
