@@ -4,24 +4,24 @@ const User = require("../../models/admin/User");
 const bcrypt = require("bcrypt");
 const { Sequelize, Op } = require("sequelize");
 
-const userLogin = async (req,res,next) => {
+const customerLogin = async (req,res,next) => {
 
-    const {login_email, login_password} = req.body
-    var user_id = null;
+    const {customer_login_email, customer_login_password} = req.body
+    var customer_id = null;
     var date = new Date();
-    const expired_time = new Date(date.setHours(date.getHours() + 2)).toISOString().slice(0, 19).replace('T', ' ');
+    const expired_time = new Date(date.setHours(date.getHours() + 24)).toISOString().slice(0, 19).replace('T', ' ');
     
     const options = {
         httpOnly: true,
         expires: new Date(
-            Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+            Date.now() + 7 * 24 * 60 * 60 * 1000 // 7 days
         )
     }
 
     // Only one user can login at the same time
     const deleted_row = await Session.destroy({
         where: {
-            email: login_email
+            email: customer_login_email
         }
     })
 
@@ -34,35 +34,35 @@ const userLogin = async (req,res,next) => {
         }
     })
 
-    const user = await User.findOne({
+    const customer = await User.findOne({
         where: {
-            email: login_email
+            email: customer_login_email
         }
     })
 
-    if(user){
+    if(customer){
 
-        bcrypt.compare(login_password, user.password, function(err, result) {
+        bcrypt.compare(customer_login_password, customer.password, function(err, result) {
             if (result) {
-                user_id = user.user_id
-                const login_token = crypto.randomBytes(16).toString("hex");
+                customer_id = customer.customer_id
+                const customer_login_token = crypto.randomBytes(16).toString("hex");
                 const session = Session.create({
-                    email: login_email,
+                    email: customer_login_email,
                     data: JSON.stringify({
                         language: "en",
                         currency: "USD",
-                        user_id: user_id
+                        customer_id: customer_id
                     }),
-                    is_customer: 0,
-                    token: login_token,
+                    is_customer: 1,
+                    token: customer_login_token,
                     expire: expired_time
                 })
 
 
-                res.status(200).cookie('login_token',login_token, options).json({
+                res.status(200).cookie('customer_login_token',customer_login_token, options).json({
                     language: "en",
                     currency: "USD",
-                    login_token: login_token 
+                    customer_login_token: customer_login_token 
                 })
             }
             else{
@@ -76,9 +76,9 @@ const userLogin = async (req,res,next) => {
     else{
         res.status(404).json({
             success: false,
-            message: "No User with this Email Exists"
+            message: "No Customer with this Email Exists"
         })
     }
 }
 
-module.exports = {userLogin}
+module.exports = {customerLogin}

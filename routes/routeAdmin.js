@@ -12,7 +12,8 @@ const UserRoleController = require("../controllers/admin/UserRoleController");
 const AuthController = require("../controllers/admin/AuthController")
 const SlideshowController = require("../controllers/admin/SlideshowController")
 const DashboardController = require("../controllers/admin/DashboardController")
-const AdminAuth = require("../middleware/Auth");
+const NewsletterController = require("../controllers/admin/NewsletterController")
+const AdminAuth = require("../middleware/admin/Auth");
 
 const getMulterStorage = (destination_dir) => {
 
@@ -57,14 +58,16 @@ var slideshowMulter = multer({
   storage: getMulterStorage("./assets/images/slideshow")
 })
 
-// Sidebar
-routerAdmin.get("/sidebar", SidebarController.getSidebarItems)
 routerAdmin.post("/login", userMulter.single("user_image"), AuthController.userLogin)
 
-routerAdmin.use(AdminAuth.checkAuthValid)
+// Middleware
+routerAdmin.use(AdminAuth.checkAuthValidUser)
 
 // Dashboard
 routerAdmin.get("/dashboard", DashboardController.getDashboardData)
+
+// Sidebar
+routerAdmin.get("/sidebar", SidebarController.getSidebarItems)
 
 // Category
 routerAdmin.get("/category",CategoryController.getCategories);
@@ -121,5 +124,8 @@ routerAdmin.post("/slideshow/new",slideshowMulter.single("slideshow_image"), Sli
 routerAdmin.get("/slideshow/edit/:slideshow_id",SlideshowController.getSlideshowById)
 routerAdmin.post("/slideshow/edit/:slideshow_id",slideshowMulter.single("slideshow_image"), SlideshowController.editSlideshowPOST)
 routerAdmin.post("/slideshow/delete",  SlideshowController.deleteSlideshows)
+
+// Newsletter 
+routerAdmin.post("/newsletter/", NewsletterController.sendMailType)
 
 module.exports=routerAdmin;

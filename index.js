@@ -14,16 +14,15 @@ app.use(cookieParser())
 app.use(express.urlencoded())
 app.use(express.json())
 const port = 4000;
+
+const directory = path.join(__dirname, 'assets/images/');
+app.use('/images/', express.static(directory));
   
 // http://localhost:4000/api/category
 app.use("/api", routerFront);
 
 // http://localhost:4000/api/admin/category
 app.use("/api/admin",routerAdmin);
-
-const directory = path.join(__dirname, 'assets/images/');
-app.use('/images/', express.static(directory));
-
 
 app.listen(port, () => {
   console.log(`Server is Running on port ${port}`);

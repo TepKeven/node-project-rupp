@@ -5,6 +5,7 @@ const Manufacturer = require("../../models/admin/Manufacturer");
 const StockStatus = require("../../models/admin/StockStatus");
 const TaxClass = require("../../models/admin/TaxClass");
 const ProductToCategory = require("../../models/admin/ProductToCategory");
+const e = require("express");
 
 // get
 const getProducts = async (req,res,next) => {
@@ -56,8 +57,12 @@ const getProductById = async  (req,res,next) => {
    const stockStatus = await StockStatus.findByPk(product.stock_status_id)
    const manufacturer = await Manufacturer.findByPk(product.manufacturer_id)
 
-   product.setDataValue("tax_class_type", taxClass.type)
-   product.setDataValue('tax_class_value',taxClass.rate)
+   if(taxClass.type == "P"){
+      product.setDataValue('tax_value',taxClass.rate * product.price / 100)
+   }
+   else{
+      product.setDataValue('tax_value',taxClass.rate)
+   }
 
    product.setDataValue("stock_status", stockStatus.name)
    product.setDataValue("manufacturer", manufacturer.name)

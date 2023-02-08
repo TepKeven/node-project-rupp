@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2023 at 11:26 AM
+-- Generation Time: Feb 08, 2023 at 03:21 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 8.0.0
 
@@ -442,8 +442,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `customer_group_id`, `store_id`, `language_id`, `first_name`, `last_name`, `email`, `telephone`, `image`, `password`, `salt`, `cart`, `wishlist`, `newsletter`, `address_id`, `ip`, `status`, `createdAt`, `updatedAt`) VALUES
-(2, 1, 1, 1, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', '1674803528344.jpg', '$2b$10$nOuq6ytP.xhGv.sUJalxiuoNN8/Ju9MvdKrnveBvna/9CeDk3HC5O', '$2b$10$nOu', NULL, NULL, 0, 0, '::1', 1, '2023-01-27 07:12:08', '2023-01-27 07:12:08'),
-(3, 1, 1, 1, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', '1674803681059.png', '$2b$10$LFg7MM8Fw4DKPsjhmgLTLes1Q0qzmT9377qm2Bga.oo4mbyjpTY8u', '$2b$10$LFg', NULL, NULL, 1, 0, '::1', 1, '2023-01-27 07:14:41', '2023-01-27 07:14:41');
+(2, 1, 1, 1, 'Keven', 'Tep', 'lyhuovlog@gmail.com', '1234567', '1674803528344.jpg', '$2b$10$nOuq6ytP.xhGv.sUJalxiuoNN8/Ju9MvdKrnveBvna/9CeDk3HC5O', '$2b$10$nOu', NULL, NULL, 0, 0, '::1', 1, '2023-01-27 07:12:08', '2023-01-27 07:12:08'),
+(3, 1, 1, 1, 'Vanneth', 'You', 'youvannethzzz@gmail.com', '1234567', '1674803681059.png', '$2b$10$LFg7MM8Fw4DKPsjhmgLTLes1Q0qzmT9377qm2Bga.oo4mbyjpTY8u', '$2b$10$LFg', NULL, NULL, 1, 0, '::1', 1, '2023-01-27 07:14:41', '2023-01-27 07:14:41');
 
 -- --------------------------------------------------------
 
@@ -497,7 +497,8 @@ INSERT INTO `dashboard_item` (`dashboard_item_id`, `name`, `href`, `icon`, `sort
 (5, 'Customers', '/admin/customer', 'bi bi-person-circle', 4, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (6, 'Users', '/admin/user', 'bi bi-person-fill-check', 5, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (7, 'User Roles', '/admin/userrole', 'fas fa-crown', 6, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(8, 'Slideshow', '/admin/slideshow', 'bi bi-person-fill-check', 7, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(8, 'Slideshow', '/admin/slideshow', 'bi bi-person-fill-check', 7, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, 'Newsletter', '/admin/newsletter', 'bi bi-person-fill-check', 8, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -758,7 +759,7 @@ CREATE TABLE `session` (
 --
 
 INSERT INTO `session` (`session_id`, `email`, `data`, `is_customer`, `token`, `expire`, `createdAt`, `updatedAt`) VALUES
-(6, 'teapkevin@gmail.com', '{\"language\":\"en\",\"currency\":\"USD\",\"user_id\":2}', 0, 'aa8331d36f68e3964db196aab08483d7', '2023-02-05 07:35:04', '2023-02-05 03:45:57', '2023-02-05 05:35:04');
+(60, 'teapkevin@gmail.com', '{\"language\":\"en\",\"currency\":\"USD\",\"user_id\":2}', 0, '5019b8e315a8ad2b83f13ca3b6642bc7', '2023-02-08 16:14:15', '2023-02-08 14:06:09', '2023-02-08 14:14:15');
 
 -- --------------------------------------------------------
 
@@ -903,7 +904,7 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`user_role_id`, `name`, `permission`, `sort_order`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 'Administrator', '[1,2,3,4,5,6]', 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(1, 'Administrator', '[1,2,3,4,5,6,7,8,9]', 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -1112,7 +1113,7 @@ ALTER TABLE `customer_group`
 -- AUTO_INCREMENT for table `dashboard_item`
 --
 ALTER TABLE `dashboard_item`
-  MODIFY `dashboard_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `dashboard_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `manufacturer`
@@ -1166,7 +1167,7 @@ ALTER TABLE `product_to_category`
 -- AUTO_INCREMENT for table `session`
 --
 ALTER TABLE `session`
-  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `shipment`

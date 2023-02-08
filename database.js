@@ -10,3 +10,4 @@ const database = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME,proc
 });
 
 module.exports = database;
+
