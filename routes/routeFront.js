@@ -10,6 +10,7 @@ const AuthController = require("../controllers/front/AuthController")
 const FrontAuth = require("../middleware/front/Auth");
 const multer = require("multer");
 const routerFront = express.Router();
+const path = require("path")
 
 const getMulterStorage = (destination_dir) => {
 
@@ -36,7 +37,9 @@ var orderMulter = multer({
 
 var contactMulter = multer()
 
-var customerMulter = multer();
+var customerMulter = multer({
+  storage: getMulterStorage("./assets/images/customer")
+})
 
 routerFront.get("/home", HomeController.getHomeItems)
 
@@ -61,7 +64,11 @@ routerFront.get("/store", StoreController.getStoreItems)
 routerFront.post("/contact", contactMulter.none(), ContactController.sendMailAdmin)
 
 // Login
-routerFront.post("/login", customerMulter.none(), AuthController.customerLogin)
+routerFront.post("/login", customerMulter.single("customer_image"), AuthController.customerLogin)
+
+// Register
+routerFront.get("/register",AuthController.customerRegisterGET);
+routerFront.post("/register", customerMulter.single("customer_image"), AuthController.customerRegisterPOST)
 
 // Middleware
 // routerFront.use(FrontAuth.checkAuthValidCustomer)
