@@ -9,7 +9,8 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-const getMailOptions = (toEmail = [], subject = '', html = '') => {
+// Mail Options for Sending Email (Admin)
+const getMailOptionsSend = (toEmail = [], subject = '', html = '') => {
   
   return {
     from: process.env.MAIL_EMAIL,
@@ -21,4 +22,17 @@ const getMailOptions = (toEmail = [], subject = '', html = '') => {
   
 }
 
-module.exports =  {transporter, getMailOptions}
+// Mail Options for Receiving Email (Admin)
+const getMailOptionsReceive = (receipientName = '', fromEmail = '', subject = '', html = '') => {
+  
+  return {
+    from: `${receipientName} <${fromEmail}>`,
+    to: process.env.MAIL_EMAIL,
+    subject: subject,
+    html: html
+
+  };
+  
+}
+
+module.exports =  {transporter, getMailOptionsSend, getMailOptionsReceive}

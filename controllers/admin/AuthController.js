@@ -18,13 +18,6 @@ const userLogin = async (req,res,next) => {
         )
     }
 
-    // Only one user can login at the same time
-    const deleted_row = await Session.destroy({
-        where: {
-            email: login_email
-        }
-    })
-
     // delete expired session 
     const expire_rows = await Session.destroy({
         where: {
@@ -42,8 +35,17 @@ const userLogin = async (req,res,next) => {
 
     if(user){
 
-        bcrypt.compare(login_password, user.password, function(err, result) {
+        bcrypt.compare(login_password, user.password, async function(err, result) {
+            
             if (result) {
+
+                // Only one user can login at the same time
+                const deleted_row = await Session.destroy({
+                    where: {
+                        email: login_email
+                    }
+                })
+
                 user_id = user.user_id
                 const login_token = crypto.randomBytes(16).toString("hex");
                 const session = Session.create({

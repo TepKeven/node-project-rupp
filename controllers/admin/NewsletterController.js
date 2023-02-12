@@ -1,5 +1,5 @@
 const Customer = require("../../models/admin/Customer");
-const { transporter, getMailOptions } = require("../../nodemailer");
+const { transporter, getMailOptionsSend } = require("../../nodemailer");
 
 const sendMailType = async (req,res,next) => {
 
@@ -35,7 +35,7 @@ const sendMaillEveryone  = async (request) => {
      return customer.email
    })
 
-   const mailOptions = getMailOptions(customer_emails, request.newsletter_subject, request.newsletter_message)
+   const mailOptions = getMailOptionsSend(customer_emails, request.newsletter_subject, request.newsletter_message)
 
    return await transporter.sendMail(mailOptions);
 
@@ -54,7 +54,7 @@ const sendMailSubscriber  = async (request) => {
        return customer.email
      })
   
-     const mailOptions = getMailOptions(customer_emails, request.newsletter_subject, request.newsletter_message)
+     const mailOptions = getMailOptionsSend(customer_emails, request.newsletter_subject, request.newsletter_message)
   
      return await transporter.sendMail(mailOptions);
 }

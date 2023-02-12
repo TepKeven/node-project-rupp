@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2023 at 03:21 PM
+-- Generation Time: Feb 12, 2023 at 08:20 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 8.0.0
 
@@ -442,8 +442,9 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `customer_group_id`, `store_id`, `language_id`, `first_name`, `last_name`, `email`, `telephone`, `image`, `password`, `salt`, `cart`, `wishlist`, `newsletter`, `address_id`, `ip`, `status`, `createdAt`, `updatedAt`) VALUES
-(2, 1, 1, 1, 'Keven', 'Tep', 'lyhuovlog@gmail.com', '1234567', '1674803528344.jpg', '$2b$10$nOuq6ytP.xhGv.sUJalxiuoNN8/Ju9MvdKrnveBvna/9CeDk3HC5O', '$2b$10$nOu', NULL, NULL, 0, 0, '::1', 1, '2023-01-27 07:12:08', '2023-01-27 07:12:08'),
-(3, 1, 1, 1, 'Vanneth', 'You', 'youvannethzzz@gmail.com', '1234567', '1674803681059.png', '$2b$10$LFg7MM8Fw4DKPsjhmgLTLes1Q0qzmT9377qm2Bga.oo4mbyjpTY8u', '$2b$10$LFg', NULL, NULL, 1, 0, '::1', 1, '2023-01-27 07:14:41', '2023-01-27 07:14:41');
+(2, 1, 1, 1, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', '1674803528344.jpg', '$2b$10$MqMGGWp/uHOKLXGuQNT0jusACz3R.9ORbHsSmhQQSreTaA8sKYKQq', '$2b$10$MqM', NULL, NULL, 0, 0, '::1', 1, '2023-01-27 07:12:08', '2023-01-27 07:12:08'),
+(3, 1, 1, 1, 'Vanneth', 'You', 'youvannethzzz@gmail.com', '1234567', '1674803681059.png', '$2b$10$LFg7MM8Fw4DKPsjhmgLTLes1Q0qzmT9377qm2Bga.oo4mbyjpTY8u', '$2b$10$LFg', NULL, NULL, 1, 0, '::1', 1, '2023-01-27 07:14:41', '2023-01-27 07:14:41'),
+(4, 1, 1, 1, 'Keven', 'Tep', 'teapkevin123@gmail.com', '1234567', '', '$2b$10$S/JHObRavvdBjDHH3OIKd.f1hJfEX.W7gCt1nB3481Gx697JigtHK', '$2b$10$S/J', NULL, NULL, 1, 0, '::1', 1, '2023-02-10 17:36:20', '2023-02-10 17:36:20');
 
 -- --------------------------------------------------------
 
@@ -566,10 +567,23 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `invoice_no`, `invoice_prefix`, `store_id`, `store_name`, `customer_id`, `first_name`, `last_name`, `email`, `telephone`, `company`, `address`, `city`, `country`, `country_id`, `payment_id`, `shipping_id`, `total`, `order_status_id`, `tracking`, `language_id`, `currency_id`, `ip`, `payslip`, `createdAt`, `updatedAt`) VALUES
-(2, 0, 'INV-2023-1-29-Keven', 1, 'RUPP Project', 2, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', 'IFL', 'Phnom Penh', 'Phnom Penh', 'Cambodia', 36, 1, 2, '600.0000', 8, '', 1, 1, '::1', '', '2023-01-29 02:34:39', '2023-01-29 02:34:39'),
-(3, 0, 'INV-2023-1-29-Keven', 1, 'RUPP Project', 2, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', 'IFL', 'Phnom Penh', 'Phnom Penh', 'Burundi', 35, 1, 2, '600.0000', 8, '', 1, 1, '::1', '', '2023-01-02 17:42:20', '2023-02-02 17:42:36'),
-(4, 1, 'INV-2023-1-29-Keven', 1, 'RUPP Project', 2, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', 'IFL', 'Phnom Penh', 'Phnom Penh', 'Burundi', 35, 1, 2, '600.0000', 8, '', 1, 1, '::1', '', '2023-03-03 18:06:25', '2023-01-03 17:42:36'),
-(5, 1, 'INV-2023-1-29-Keven', 1, 'RUPP Project', 2, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', 'IFL', 'Phnom Penh', 'Phnom Penh', 'Burundi', 35, 1, 2, '600.0000', 8, '', 1, 1, '::1', '', '2023-03-03 18:06:25', '2023-01-03 17:42:36');
+(3, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:07:19', '2023-02-10 17:07:19'),
+(4, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:13:46', '2023-02-10 17:13:46'),
+(5, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:14:09', '2023-02-10 17:14:09'),
+(6, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:14:56', '2023-02-10 17:14:56'),
+(7, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:15:20', '2023-02-10 17:15:20'),
+(8, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:16:54', '2023-02-10 17:16:54'),
+(9, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:17:10', '2023-02-10 17:17:10'),
+(10, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:17:57', '2023-02-10 17:17:57'),
+(11, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:19:34', '2023-02-10 17:19:34'),
+(12, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:22:47', '2023-02-10 17:22:47'),
+(13, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:25:16', '2023-02-10 17:25:16'),
+(14, 0, 'INV-2023-2-11-Hello', 1, 'RUPP Project', NULL, 'Hello', 'Hello', 'teapkevin@gmail.com', '1234567', 'Ke', 'Phnom Penh', 'Phnom Penh', 'Cambodia', 36, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:28:05', '2023-02-10 17:28:05'),
+(15, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:32:13', '2023-02-10 17:32:13'),
+(16, 0, 'INV-2023-2-11-', 1, 'RUPP Project', 2, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:32:56', '2023-02-10 17:32:56'),
+(17, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:33:27', '2023-02-10 17:33:27'),
+(18, 0, 'INV-2023-2-11-', 1, 'RUPP Project', NULL, '', '', 'teapkevin@gmail.com', '', '', '', '', 'Afghanistan', 1, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:34:28', '2023-02-10 17:34:28'),
+(19, 0, 'INV-2023-2-11-Keven', 1, 'RUPP Project', 4, 'Keven', 'Tep', 'teapkevin123@gmail.com', '1234567', 'Ke', 'Phnom Penh', 'Phnom Penh', 'Cambodia', 36, 1, 1, '0.0000', 1, '', 1, 1, '::1', '', '2023-02-10 17:36:20', '2023-02-10 17:36:20');
 
 -- --------------------------------------------------------
 
@@ -596,7 +610,16 @@ CREATE TABLE `order_product` (
 --
 
 INSERT INTO `order_product` (`order_product_id`, `order_id`, `product_id`, `name`, `model`, `quantity`, `price`, `total`, `tax`, `createdAt`, `updatedAt`) VALUES
-(4, 2, 4, 'Product', 'Product', 2, '250.0000', '600.0000', '50.0000', '2023-01-29 02:34:39', '2023-01-29 02:34:39');
+(1, 6, 4, '', 'Product', 0, '250.0000', '0.0000', '0.0000', '2023-02-10 17:14:56', '2023-02-10 17:14:56'),
+(2, 7, 4, '', 'Product', 0, '250.0000', '0.0000', '0.0000', '2023-02-10 17:15:20', '2023-02-10 17:15:20'),
+(3, 9, 4, '', 'Product', 0, '250.0000', '250.0000', '0.0000', '2023-02-10 17:17:10', '2023-02-10 17:17:10'),
+(4, 13, 4, '', 'Product', 2, '250.0000', '600.0000', '50.0000', '2023-02-10 17:25:16', '2023-02-10 17:25:16'),
+(5, 14, 4, '', 'Product', 2, '250.0000', '600.0000', '50.0000', '2023-02-10 17:28:05', '2023-02-10 17:28:05'),
+(6, 15, 4, '', 'Product', 2, '250.0000', '600.0000', '50.0000', '2023-02-10 17:32:13', '2023-02-10 17:32:13'),
+(7, 16, 4, '', 'Product', 2, '250.0000', '600.0000', '50.0000', '2023-02-10 17:32:56', '2023-02-10 17:32:56'),
+(8, 17, 4, '', 'Product', 2, '250.0000', '600.0000', '50.0000', '2023-02-10 17:33:27', '2023-02-10 17:33:27'),
+(9, 18, 4, '', 'Product', 2, '250.0000', '600.0000', '50.0000', '2023-02-10 17:34:28', '2023-02-10 17:34:28'),
+(10, 19, 4, '', 'Product', 2, '250.0000', '600.0000', '50.0000', '2023-02-10 17:36:20', '2023-02-10 17:36:20');
 
 -- --------------------------------------------------------
 
@@ -639,6 +662,7 @@ CREATE TABLE `payment` (
   `payment_id` int(11) NOT NULL,
   `code` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL DEFAULT '',
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `sort_order` int(11) NOT NULL DEFAULT 0,
   `createdAt` datetime NOT NULL,
@@ -649,9 +673,9 @@ CREATE TABLE `payment` (
 -- Dumping data for table `payment`
 --
 
-INSERT INTO `payment` (`payment_id`, `code`, `name`, `status`, `sort_order`, `createdAt`, `updatedAt`) VALUES
-(1, 'COD', 'Cash on Delivery', 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'BT', 'Bank Transfer', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `payment` (`payment_id`, `code`, `name`, `description`, `status`, `sort_order`, `createdAt`, `updatedAt`) VALUES
+(1, 'BT', 'Bank Transfer', 'This is for Bank Transfer through ABA Bank', 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'COD', 'Cash on Delivery', 'This is for Cash on Delivery Method', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -759,7 +783,7 @@ CREATE TABLE `session` (
 --
 
 INSERT INTO `session` (`session_id`, `email`, `data`, `is_customer`, `token`, `expire`, `createdAt`, `updatedAt`) VALUES
-(60, 'teapkevin@gmail.com', '{\"language\":\"en\",\"currency\":\"USD\",\"user_id\":2}', 0, '5019b8e315a8ad2b83f13ca3b6642bc7', '2023-02-08 16:14:15', '2023-02-08 14:06:09', '2023-02-08 14:14:15');
+(78, 'teapkevin@gmail.com', '{\"language\":\"en\",\"currency\":\"USD\",\"customer_id\":2}', 1, 'e661e9729800a49179f5911c7113aecd', '2023-02-13 04:27:28', '2023-02-12 04:27:28', '2023-02-12 04:27:28');
 
 -- --------------------------------------------------------
 
@@ -771,6 +795,7 @@ CREATE TABLE `shipment` (
   `shipping_id` int(11) NOT NULL,
   `code` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL DEFAULT '',
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `sort_order` int(11) NOT NULL DEFAULT 0,
   `createdAt` datetime NOT NULL,
@@ -781,9 +806,9 @@ CREATE TABLE `shipment` (
 -- Dumping data for table `shipment`
 --
 
-INSERT INTO `shipment` (`shipping_id`, `code`, `name`, `status`, `sort_order`, `createdAt`, `updatedAt`) VALUES
-(1, 'Flat', 'Flat Shipping', 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'Free', 'Free Shipping', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `shipment` (`shipping_id`, `code`, `name`, `description`, `status`, `sort_order`, `createdAt`, `updatedAt`) VALUES
+(1, 'Free', 'Free Shipping ', 'This is Free Shipping', 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'Flat', 'Flat Shipping', 'Flat Shipping Cost is 10$', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1101,7 +1126,7 @@ ALTER TABLE `currency`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `customer_group`
@@ -1125,13 +1150,13 @@ ALTER TABLE `manufacturer`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `order_product`
 --
 ALTER TABLE `order_product`
-  MODIFY `order_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `order_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `order_status`
@@ -1167,7 +1192,7 @@ ALTER TABLE `product_to_category`
 -- AUTO_INCREMENT for table `session`
 --
 ALTER TABLE `session`
-  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `shipment`

@@ -19,6 +19,11 @@ const Payment = database.define("payment", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    description: {
+        type: DataTypes.STRING,
+        defaultValue: "",
+        allowNull: false
+    },
     status: {
         type: DataTypes.TINYINT(1),
         defaultValue: 1,

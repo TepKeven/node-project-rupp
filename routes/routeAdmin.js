@@ -58,6 +58,10 @@ var slideshowMulter = multer({
   storage: getMulterStorage("./assets/images/slideshow")
 })
 
+var newsletterMulter = multer({
+  storage: getMulterStorage("./assets/images/newsletter")
+})
+
 routerAdmin.post("/login", userMulter.single("user_image"), AuthController.userLogin)
 
 // Middleware
@@ -126,6 +130,6 @@ routerAdmin.post("/slideshow/edit/:slideshow_id",slideshowMulter.single("slidesh
 routerAdmin.post("/slideshow/delete",  SlideshowController.deleteSlideshows)
 
 // Newsletter 
-routerAdmin.post("/newsletter/", NewsletterController.sendMailType)
+routerAdmin.post("/newsletter/",newsletterMulter.single("newsletter_image"), NewsletterController.sendMailType)
 
 module.exports=routerAdmin;

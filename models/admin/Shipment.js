@@ -19,6 +19,11 @@ const Shipment = database.define("shipment", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    description: {
+        type: DataTypes.STRING,
+        defaultValue: "",
+        allowNull: false
+    },
     status: {
         type: DataTypes.TINYINT(1),
         defaultValue: 1,
