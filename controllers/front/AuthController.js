@@ -64,6 +64,7 @@ const customerLogin = async (req,res,next) => {
 
                 console.log(customer_login_token)
                 res.status(200).cookie('customer_login_token',customer_login_token, options).json({
+                    message: "Login Successfully",
                     language: "en",
                     currency: "USD",
                     customer_login_token: customer_login_token 

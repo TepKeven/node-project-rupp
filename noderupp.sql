@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2023 at 08:20 AM
+-- Generation Time: Feb 12, 2023 at 06:17 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 8.0.0
 
@@ -48,7 +48,13 @@ CREATE TABLE `address` (
 INSERT INTO `address` (`address_id`, `customer_id`, `first_name`, `last_name`, `company`, `address`, `city`, `postcode`, `country_id`, `createdAt`, `updatedAt`) VALUES
 (2, 2, 'Keven', 'Tep', 'RUPP', 'Phnom Penh', 'Phnom Penh', '11000', 1, '2023-01-27 07:12:08', '2023-01-27 07:12:08'),
 (3, 3, 'Keven', 'Tep', 'Ke', 'Phnom Penh', 'Phnom Penh', '11000', 1, '2023-01-27 07:14:41', '2023-01-27 07:14:41'),
-(4, 3, 'Keven', 'Shop', 'IFL', 'Phnom Penh', 'Phnom Penh', '11000', 1, '2023-01-27 07:14:41', '2023-01-27 07:14:41');
+(4, 3, 'Keven', 'Shop', 'IFL', 'Phnom Penh', 'Phnom Penh', '11000', 1, '2023-01-27 07:14:41', '2023-01-27 07:14:41'),
+(17, 5, 'Keven', 'Tep', 'Ke', 'Phnom Penh', 'Phnom Penh', '11000', 36, '2023-02-12 07:52:00', '2023-02-12 07:52:00'),
+(18, 6, 'Keven', 'Tep', 'Ke', 'Phnom Penh', 'Phnom Penh', '11000', 36, '2023-02-12 07:52:48', '2023-02-12 07:52:48'),
+(19, 7, 'Keven', 'Tep', 'Ke', 'Phnom Penh', 'Phnom Penh', '11000', 36, '2023-02-12 08:03:03', '2023-02-12 08:03:03'),
+(20, 8, 'Keven', 'Tep', 'Ke', 'Phnom Penh', 'Phnom Penh', '11000', 36, '2023-02-12 08:04:40', '2023-02-12 08:04:40'),
+(21, 9, 'Keven', 'Tep', 'Ke', 'Phnom Penh', 'Phnom Penh', '11000', 36, '2023-02-12 09:15:39', '2023-02-12 09:15:39'),
+(22, 10, 'Keven', 'Tep', 'Ke', 'Phnom Penh', 'Phnom Penh', '11000', 36, '2023-02-12 14:57:32', '2023-02-12 14:57:32');
 
 -- --------------------------------------------------------
 
@@ -444,7 +450,13 @@ CREATE TABLE `customers` (
 INSERT INTO `customers` (`customer_id`, `customer_group_id`, `store_id`, `language_id`, `first_name`, `last_name`, `email`, `telephone`, `image`, `password`, `salt`, `cart`, `wishlist`, `newsletter`, `address_id`, `ip`, `status`, `createdAt`, `updatedAt`) VALUES
 (2, 1, 1, 1, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', '1674803528344.jpg', '$2b$10$MqMGGWp/uHOKLXGuQNT0jusACz3R.9ORbHsSmhQQSreTaA8sKYKQq', '$2b$10$MqM', NULL, NULL, 0, 0, '::1', 1, '2023-01-27 07:12:08', '2023-01-27 07:12:08'),
 (3, 1, 1, 1, 'Vanneth', 'You', 'youvannethzzz@gmail.com', '1234567', '1674803681059.png', '$2b$10$LFg7MM8Fw4DKPsjhmgLTLes1Q0qzmT9377qm2Bga.oo4mbyjpTY8u', '$2b$10$LFg', NULL, NULL, 1, 0, '::1', 1, '2023-01-27 07:14:41', '2023-01-27 07:14:41'),
-(4, 1, 1, 1, 'Keven', 'Tep', 'teapkevin123@gmail.com', '1234567', '', '$2b$10$S/JHObRavvdBjDHH3OIKd.f1hJfEX.W7gCt1nB3481Gx697JigtHK', '$2b$10$S/J', NULL, NULL, 1, 0, '::1', 1, '2023-02-10 17:36:20', '2023-02-10 17:36:20');
+(4, 1, 1, 1, 'Keven', 'Tep', 'teapkevin123@gmail.com', '1234567', '', '$2b$10$S/JHObRavvdBjDHH3OIKd.f1hJfEX.W7gCt1nB3481Gx697JigtHK', '$2b$10$S/J', NULL, NULL, 1, 0, '::1', 1, '2023-02-10 17:36:20', '2023-02-10 17:36:20'),
+(5, 1, 1, 1, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', '1676188320275.jpg', '$2b$10$LdOkA1gbV8CC.T1VzEnPoeZ7A8PD3cfRn6HP4HTDR16fgfqlj0Hr6', '$2b$10$LdO', NULL, NULL, 0, 0, '::1', 1, '2023-02-12 07:52:00', '2023-02-12 07:52:00'),
+(6, 1, 1, 1, 'Keven', 'Tep', 'teapkevin@gmail.com', '1234567', '1676188368219.jpg', '$2b$10$6onRx3inYxjOCR6F9Aq2cuvGhkFByRKL.OtQ9/lU8qcIc29rAfpqq', '$2b$10$6on', NULL, NULL, 0, 0, '::1', 1, '2023-02-12 07:52:48', '2023-02-12 07:52:48'),
+(7, 1, 1, 1, 'Keven', 'Tep', 'teapkevin12@gmail.com', '1234567', '1676188983141.jpg', '$2b$10$HS.M/P4rkZO2lO1pl5uMFu3B87VdOmnwgPHO33BPWH30DNRaKmsLG', '$2b$10$HS.', NULL, NULL, 0, 0, '::1', 1, '2023-02-12 08:03:03', '2023-02-12 08:03:03'),
+(8, 1, 1, 1, 'Keven', 'Tep', 'teapkevin1234@gmail.com', '1234567', '1676189079868.jpg', '$2b$10$mhZZ8VZP2MNmZ5QmlMkqWeDgDcWtWYaDWxgei9YlWnSxMZYGnSpoa', '$2b$10$mhZ', NULL, NULL, 0, 0, '::1', 1, '2023-02-12 08:04:40', '2023-02-12 08:04:40'),
+(9, 1, 1, 1, 'Keven', 'Tep', 'teapkevin12345@gmail.com', '1234567', '1676193338756.jpg', '$2b$10$Ql3lzLK/RaVzWnMzap/xiO9tflmESz7grTKIGI9kmlKdE27EPCJV6', '$2b$10$Ql3', NULL, NULL, 0, 0, '::1', 1, '2023-02-12 09:15:38', '2023-02-12 09:15:38'),
+(10, 1, 1, 1, 'Keven', 'Tep', 'teapkevin212345@gmail.com', '1234567', '1676213852524.jpg', '$2b$10$BOyAGQw38YvIzRjoZ37B1OcOb4/K3kxde6ae0xMR/EqVYanr3c69q', '$2b$10$BOy', NULL, NULL, 0, 0, '::1', 1, '2023-02-12 14:57:32', '2023-02-12 14:57:32');
 
 -- --------------------------------------------------------
 
@@ -733,9 +745,9 @@ CREATE TABLE `product_description` (
 --
 
 INSERT INTO `product_description` (`product_description_id`, `language_id`, `name`, `description`, `tag`, `meta_title`, `meta_description`, `meta_keyword`, `createdAt`, `updatedAt`, `product_id`) VALUES
-(5, 1, 'Product', '&lt;p&gt;Product&lt;/p&gt;', '', 'Product', 'Product', 'Product', '2023-01-25 09:43:03', '2023-01-25 09:43:03', 4),
-(6, 2, 'Product', '&lt;p&gt;Product&lt;/p&gt;', '', 'Product', 'Product', 'Product', '2023-01-25 09:43:03', '2023-01-25 09:43:03', 4),
-(7, 1, 'Keven', '&lt;p&gt;Keven&lt;/p&gt;', '', 'Keven', 'Keven', 'Keven', '2023-01-26 10:04:39', '2023-01-26 10:04:39', 5),
+(5, 1, 'Product', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', '', 'Product', 'Product', 'Product', '2023-01-25 09:43:03', '2023-01-25 09:43:03', 4),
+(6, 2, 'Product', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', '', 'Product', 'Product', 'Product', '2023-01-25 09:43:03', '2023-01-25 09:43:03', 4),
+(7, 1, 'Keven', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', '', 'Keven', 'Keven', 'Keven', '2023-01-26 10:04:39', '2023-01-26 10:04:39', 5),
 (8, 2, 'Keven', '&lt;p&gt;Keven&lt;/p&gt;', '', 'Keven', 'Keven', 'Keven', '2023-01-26 10:04:39', '2023-01-26 10:04:39', 5);
 
 -- --------------------------------------------------------
@@ -783,7 +795,10 @@ CREATE TABLE `session` (
 --
 
 INSERT INTO `session` (`session_id`, `email`, `data`, `is_customer`, `token`, `expire`, `createdAt`, `updatedAt`) VALUES
-(78, 'teapkevin@gmail.com', '{\"language\":\"en\",\"currency\":\"USD\",\"customer_id\":2}', 1, 'e661e9729800a49179f5911c7113aecd', '2023-02-13 04:27:28', '2023-02-12 04:27:28', '2023-02-12 04:27:28');
+(79, 'teapkevin1234@gmail.com', '{\"language\":\"en\",\"currency\":\"USD\",\"customer_id\":8}', 1, '9e0460d1bfc1541d67333ea0203c4abe', '2023-02-13 08:04:39', '2023-02-12 08:04:40', '2023-02-12 08:04:40'),
+(83, 'teapkevin12345@gmail.com', '{\"language\":\"en\",\"currency\":\"USD\",\"customer_id\":9}', 1, 'f26f9ef530e631fa2b5e3acb26791e02', '2023-02-13 09:15:38', '2023-02-12 09:15:39', '2023-02-12 09:15:39'),
+(85, 'teapkevin@gmail.com', '{\"language\":\"en\",\"currency\":\"USD\",\"customer_id\":2}', 1, '295f8dde4ac8536b803deba4d72316be', '2023-02-13 14:56:18', '2023-02-12 14:56:18', '2023-02-12 14:56:18'),
+(87, 'teapkevin212345@gmail.com', '{\"language\":\"en\",\"currency\":\"USD\",\"customer_id\":10}', 1, 'e8e6e1a0c33e797fbbbb76b4ce124d6a', '2023-02-13 17:06:27', '2023-02-12 17:06:28', '2023-02-12 17:06:28');
 
 -- --------------------------------------------------------
 
@@ -828,6 +843,15 @@ CREATE TABLE `slideshows` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `slideshows`
+--
+
+INSERT INTO `slideshows` (`slideshow_id`, `language_id`, `title`, `description`, `link`, `image`, `sort_order`, `status`, `createdAt`, `updatedAt`) VALUES
+(3, 1, 'Slideshow1', 'Slideshow1', '#', '1676198385920.jpg', 0, 1, '2023-02-12 10:39:45', '2023-02-12 10:39:45'),
+(4, 1, 'Slideshow2', 'Slideshow2', '#', '1676198385920.jpg', 1, 1, '2023-02-12 10:39:45', '2023-02-12 10:39:45'),
+(5, 1, 'Slideshow3', 'Slideshow3', '#', '1676198385920.jpg', 2, 1, '2023-02-12 10:39:45', '2023-02-12 10:39:45');
 
 -- --------------------------------------------------------
 
@@ -1096,7 +1120,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -1126,7 +1150,7 @@ ALTER TABLE `currency`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `customer_group`
@@ -1192,7 +1216,7 @@ ALTER TABLE `product_to_category`
 -- AUTO_INCREMENT for table `session`
 --
 ALTER TABLE `session`
-  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `shipment`
@@ -1204,7 +1228,7 @@ ALTER TABLE `shipment`
 -- AUTO_INCREMENT for table `slideshows`
 --
 ALTER TABLE `slideshows`
-  MODIFY `slideshow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `slideshow_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `stock_status`

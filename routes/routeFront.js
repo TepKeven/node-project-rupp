@@ -7,6 +7,8 @@ const StoreController = require("../controllers/front/StoreController")
 const HomeController = require("../controllers/front/HomeController")
 const ContactController = require("../controllers/front/ContactController")
 const AuthController = require("../controllers/front/AuthController")
+const NavController = require("../controllers/front/NavController")
+const CustomerController = require("../controllers/front/CustomerController")
 const FrontAuth = require("../middleware/front/Auth");
 const multer = require("multer");
 const routerFront = express.Router();
@@ -41,6 +43,15 @@ var customerMulter = multer({
   storage: getMulterStorage("./assets/images/customer")
 })
 
+var navbarMulter = multer();
+
+// Navbar
+routerFront.post("/navbar", navbarMulter.none(), NavController.getNavItems)
+
+// Profile
+routerFront.get("/customer/get", CustomerController.getCustomer)
+
+// Home
 routerFront.get("/home", HomeController.getHomeItems)
 
 // Slideshow
