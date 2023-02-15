@@ -74,15 +74,15 @@ const addOrderPOST = async (req,res,next) => {
    var saltString;
    var encrytedPassword;
 
-   // Customer 
-   encrytedPassword = await bcrypt.genSalt(10).then(salt => {
-      saltString = salt
-      return bcrypt.hash(request.order_password, saltString)
-   })
-
    if(req.cookies.customer_login_token == null) {
 
       if(request.order_create_account == 1){
+
+         // Customer 
+         encrytedPassword = await bcrypt.genSalt(10).then(salt => {
+            saltString = salt
+            return bcrypt.hash(request.order_password, saltString)
+         })
 
          const customer = await Customer.create({
             customer_group_id: 1,
@@ -131,7 +131,8 @@ const addOrderPOST = async (req,res,next) => {
    var product_list = await Product.findAll({
       where: {
          product_id: cart_product_ids
-      }
+      },
+      include: [productDescriptionAssoc],
    })
 
 
@@ -193,7 +194,7 @@ const addOrderPOST = async (req,res,next) => {
       var order_product = {
          order_id: order.order_id,
          product_id: product.product_id,
-         name: product.name,
+         name: product.product_description_assoc[0].name,
          model: product.model,
          quantity: product.getDataValue("purchase_quantity"),
          price: product.price,
