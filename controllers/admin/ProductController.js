@@ -20,6 +20,27 @@ const getProducts = async (req,res,next) => {
       include: [productDescriptionAssoc],
    })
 
+   await Promise.all(products.map(async (product) => {
+
+      const product_categories = await ProductToCategory.findAll({
+         where: {
+            product_id: product.product_id
+         }
+      })
+
+      const product_category_ids = product_categories.map(product_category => product_category.category_id);
+
+      const categories = await Category.findAll({
+         where: {
+            category_id: product_category_ids
+         },
+         include: [categoryDescriptionAssoc],
+      })
+
+      product.setDataValue("categories", categories)
+
+   }))
+
    res.status(200).json({
       products: products.filter((product,index) => {
          return ((end == 0) ? true : (index >= start - 1 && index <= end - 1 )) // return all or just between certain index

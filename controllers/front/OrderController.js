@@ -159,7 +159,7 @@ const addOrderPOST = async (req,res,next) => {
       })
    )
 
-   const total_price_tax = product_list.reduce((total,product) => (parseFloat(product.price) + parseFloat(product.tax)) * parseFloat(product.purchase_quantity) + total ,0)
+   const total_price_tax = product_list.reduce((total,product) => (parseFloat(product.price) + parseFloat(product.getDataValue("tax"))) * parseFloat(product.getDataValue("purchase_quantity")) + total ,0)
 
    const order = await Order.create({
       invoice_prefix: `INV-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${request.order_first_name}`,
