@@ -65,7 +65,7 @@ var newsletterMulter = multer({
 routerAdmin.post("/login", userMulter.single("user_image"), AuthController.userLogin)
 
 // Middleware
-// routerAdmin.use(AdminAuth.checkAuthValidUser)
+routerAdmin.use(AdminAuth.checkAuthValidUser)
 
 // Dashboard
 routerAdmin.get("/dashboard", DashboardController.getDashboardData)
