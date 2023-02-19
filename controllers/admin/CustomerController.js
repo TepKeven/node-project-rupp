@@ -4,6 +4,7 @@ const Customer = require("../../models/admin/Customer");
 const CustomerGroup = require("../../models/admin/CustomerGroup");
 const bcrypt = require("bcrypt");
 const Address = require("../../models/admin/Address");
+const Country = require("../../models/admin/Country")
 
 // get
 const getCustomers = async (req,res,next) => {
@@ -28,6 +29,7 @@ const getCustomerById = async  (req,res,next) => {
 
    var customer_id = req.params.customer_id
    const customer = await Customer.findByPk(customer_id)
+   const countries = await Country.findAll();
 
    const addresses = await Address.findAll({
       where: {
@@ -40,7 +42,8 @@ const getCustomerById = async  (req,res,next) => {
    res.status(200).json({
       customer: customer,
       addresses: addresses,
-      customer_groups: customer_groups
+      customer_groups: customer_groups,
+      countries: countries
    })
 }
 
@@ -49,9 +52,11 @@ const getCustomerById = async  (req,res,next) => {
 const addCustomerGET = async (req,res,next) => {
 
    const customer_groups = await CustomerGroup.findAll()
+   const countries = await Country.findAll()
 
    res.status(200).json({
-      customer_groups: customer_groups
+      customer_groups: customer_groups,
+      countries: countries
    })
 }
 
