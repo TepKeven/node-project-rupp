@@ -12,7 +12,11 @@ const OrderStatus = require("../../models/admin/OrderStatus");
 const OrderProduct = require("../../models/admin/OrderProduct");
 const Session = require("../../models/admin/Session");
 const bcrypt = require("bcrypt");
+const { sendMailAdmin } = require("./ContactController");
+const { getMailOptionsReceive, transporter, getMailOptionsSend } = require("../../nodemailer");
+const { response } = require("express");
 const date = new Date();
+require('dotenv').config();
 
 
 // Add GET Request 
@@ -207,11 +211,183 @@ const addOrderPOST = async (req,res,next) => {
 
    const order_products = await OrderProduct.bulkCreate(order_product_list)
 
-   res.status(200).json({
-      status: "Success", 
-      message: "Order Successfully",
-      order: order,
-      order_products: order_products
+   sendMailOrder(order, order_products).then(response => {
+
+      res.status(200).json({
+         status: "Success", 
+         message: "Order Successfully",
+         order: order,
+         order_products: order_products
+      })
+   })
+   
+}
+
+const sendMailOrder = async (order_info, order_products) => {
+
+   const payment_method = await Payment.findByPk(order_info.payment_id)
+   const shipping_method = await Shipment.findByPk(order_info.shipping_id)
+   const order_status = await OrderStatus.findByPk(1)
+
+   const htmlEmailSendFormat = `
+   <div>
+      <p>Thank you for purchasing these products. Your order has been created. We will process your order as soon as possible after receiving your payment.</p>
+
+      <table style="border-collapse:collapse;width:100%;border-top:1px solid #dddddd;border-left:1px solid #dddddd;margin-bottom:20px">
+         <thead>
+            <tr>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:left;padding:7px;color:#222222" colspan="2"> Order Information </td>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;text-align:left;padding:7px"> <b>Order number:</b> ${order_info.order_id}<br> 
+                  <b>Order date:</b> ${new Date(order_info.createdAt).toLocaleDateString()}<br>
+                  <b>Payment method:</b> ${payment_method.name}<br> 
+                  <b>Shipping Method:</b> ${shipping_method.name}
+               </td>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;text-align:left;padding:7px"> <b>E-mail:</b> <a href=${`mailto:${order_info.email}`} target="_blank">${order_info.email}</a><br> 
+                  <b>Contact number:</b> ${order_info.telephone}<br> 
+                  <b>IP address:</b> ${order_info.ip == "::1" ? "127.0.0.1" : order_info.ip}<br> 
+                  <b>Order Status:</b> ${order_status.name} <br>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <table style="border-collapse:collapse;width:100%;border-top:1px solid #dddddd;border-left:1px solid #dddddd;margin-bottom:20px;"> 
+         <thead>
+            <tr>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> Product </td>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> Quantity </td>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> Price </td>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> Tax </td>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> Total </td>
+            </tr>
+         </thead>
+         <tbody>
+            ${order_products.map(order_product => (
+               `<tr>
+                  <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> ${order_product.name} </td>
+                  <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> ${order_product.quantity} </td>
+                  <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> $${order_product.price} </td>
+                  <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> $${order_product.tax} </td>
+                  <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> $${order_product.total} </td>
+               </tr>`
+            ))}
+            <tr>
+               <td colspan="4" style="text-align:left;padding-left:10px;">
+                  Total Price
+               </td>
+               <td style="text-align:center;">
+                  $${order_products.reduce((total,product) => parseFloat(product.price) * parseFloat(product.quantity) + total ,0)}
+               </td>
+            </tr>
+            <tr>
+               <td colspan="4" style="text-align:left;padding-left:10px;">
+                  Total Tax
+               </td>
+               <td style="text-align:center;">
+                  $${order_products.reduce((total,product) => parseFloat(product.tax) * parseFloat(product.quantity) + total ,0)}
+               </td>
+            </tr>
+            <tr>
+               <td colspan="4" style="text-align:left;padding-left:10px;">
+                  Total Price & Tax
+               </td>
+               <td style="text-align:center;">
+                  $${order_products.reduce((total,product) => (parseFloat(product.price) + parseFloat(product.tax)) * parseFloat(product.quantity) + total ,0)}
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <p>If you have any questions, please reply directly to this email.</p>
+   </div>
+   `
+
+   const htmlEmailReceiveFormat = `
+   <div>
+      <p>A new order has been added from ${order_info.first_name + " " + order_info.last_name}</p>
+
+      <table style="border-collapse:collapse;width:100%;border-top:1px solid #dddddd;border-left:1px solid #dddddd;margin-bottom:20px">
+         <thead>
+            <tr>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:left;padding:7px;color:#222222" colspan="2"> Order Information </td>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;text-align:left;padding:7px"> <b>Order number:</b> ${order_info.order_id}<br> 
+                  <b>Order date:</b> ${new Date(order_info.createdAt).toLocaleDateString()}<br>
+                  <b>Payment method:</b> ${payment_method.name}<br> 
+                  <b>Shipping Method:</b> ${shipping_method.name}
+               </td>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;text-align:left;padding:7px"> <b>E-mail:</b> <a href=${`mailto:${order_info.email}`} target="_blank">${order_info.email}</a><br> 
+                  <b>Contact number:</b> ${order_info.telephone}<br> 
+                  <b>IP address:</b> ${order_info.ip == "::1" ? "127.0.0.1" : order_info.ip}<br> 
+                  <b>Order Status:</b> ${order_status.name} <br>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <table style="border-collapse:collapse;width:100%;border-top:1px solid #dddddd;border-left:1px solid #dddddd;margin-bottom:20px;"> 
+         <thead>
+            <tr>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> Product </td>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> Quantity </td>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> Price </td>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> Tax </td>
+               <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> Total </td>
+            </tr>
+         </thead>
+         <tbody>
+            ${order_products.map(order_product => (
+               `<tr>
+                  <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> ${order_product.name} </td>
+                  <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> ${order_product.quantity} </td>
+                  <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> $${order_product.price} </td>
+                  <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> $${order_product.tax} </td>
+                  <td style="font-size:13px;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;background-color:#efefef;font-weight:bold;text-align:center;padding:7px;color:#222222"> $${order_product.total} </td>
+               </tr>`
+            ))}
+            <tr>
+               <td colspan="4" style="text-align:left;padding-left:10px;">
+                  Total Price
+               </td>
+               <td style="text-align:center;">
+                  $${order_products.reduce((total,product) => parseFloat(product.price) * parseFloat(product.quantity) + total ,0)}
+               </td>
+            </tr>
+            <tr>
+               <td colspan="4" style="text-align:left;padding-left:10px;">
+                  Total Tax
+               </td>
+               <td style="text-align:center;">
+                  $${order_products.reduce((total,product) => parseFloat(product.tax) * parseFloat(product.quantity) + total ,0)}
+               </td>
+            </tr>
+            <tr>
+               <td colspan="4" style="text-align:left;padding-left:10px;">
+                  Total Price & Tax
+               </td>
+               <td style="text-align:center;">
+                  $${order_products.reduce((total,product) => (parseFloat(product.price) + parseFloat(product.tax)) * parseFloat(product.quantity) + total ,0)}
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+   `
+
+   const mailOptionsReceive = getMailOptionsReceive(order_info.first_name + " " + order_info.last_name, order_info.email, `New Order From ${order_info.first_name + " " + order_info.last_name}`, htmlEmailReceiveFormat)
+   const mailOptionsSend = getMailOptionsSend(order_info.email, `${process.env.STORE_NAME} - Order Confirmation ${order_info.order_id}`, htmlEmailSendFormat)
+
+   transporter.sendMail(mailOptionsSend).then(response => {
+      console.log(response)
+   
+   })
+
+   transporter.sendMail(mailOptionsReceive).then(response => {
+      console.log(response)
    })
    
 }

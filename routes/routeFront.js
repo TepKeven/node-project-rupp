@@ -81,6 +81,9 @@ routerFront.post("/login", customerMulter.single("customer_image"), AuthControll
 routerFront.get("/register",AuthController.customerRegisterGET);
 routerFront.post("/register", customerMulter.single("customer_image"), AuthController.customerRegisterPOST)
 
+routerFront.post("/getnewotp", customerMulter.none(), AuthController.generateNewOTPCode)
+routerFront.post("/verifyotp", customerMulter.none(), AuthController.verifyOTPCode)
+
 // Middleware
 // routerFront.use(FrontAuth.checkAuthValidCustomer)
 

@@ -5,6 +5,8 @@ const { Sequelize, Op } = require("sequelize");
 const Customer = require("../../models/admin/Customer");
 const Address = require("../../models/admin/Address");
 const Country = require("../../models/admin/Country");
+const OTP = require("../../models/admin/OTP");
+const { transporter, getMailOptionsSend } = require("../../nodemailer");
 
 const customerLogin = async (req,res,next) => {
 
@@ -103,13 +105,13 @@ const customerRegisterPOST = async (req,res,next) => {
    var encrytedPassword;
    var emailCheck;
    var date = new Date();
-   const expired_time = new Date(date.setHours(date.getHours() + 24)).toISOString().slice(0, 19).replace('T', ' ');
-   const options = {
-        httpOnly: true,
-        expires: new Date(
-            Date.now() + 7 * 24 * 60 * 60 * 1000 // 7 days
-        )
-    }
+//    const expired_time = new Date(date.setHours(date.getHours() + 24)).toISOString().slice(0, 19).replace('T', ' ');
+//    const options = {
+//         httpOnly: true,
+//         expires: new Date(
+//             Date.now() + 7 * 24 * 60 * 60 * 1000 // 7 days
+//         )
+//     }
 
 
    encrytedPassword = await bcrypt.genSalt(10).then(salt => {
@@ -146,7 +148,7 @@ const customerRegisterPOST = async (req,res,next) => {
             newsletter: request.customer_newsletter,
             address_id: 0,
             ip: req.ip, 
-            status: 1
+            status: 0
         })
     
         const address = {
@@ -161,14 +163,119 @@ const customerRegisterPOST = async (req,res,next) => {
         }
     
         const address_item = await Address.create(address)
+        generateOTPCode(customer)
+
+        res.status(200).json({
+            success: true,
+            message: "Please Verify our OTP Code From Your Email",
+            address_item: address_item
+        })
+   
+   }
+   
+}   
+
+const generateOTPCode = (customer = {}) => {
+    
+    var date = new Date();
+    const expired_time = new Date(date.setMinutes(date.getMinutes() + 5)).toISOString().slice(0, 19).replace('T', ' ');
+    const OTPCode = Math.floor(1000 + Math.random() * 9000).toString();
+    const mailOptionsSend = getMailOptionsSend(customer.email, `${process.env.STORE_NAME} - OTP Confirmation`, OTPCode)
+
+    transporter.sendMail(mailOptionsSend).then(async (response) => {
+        
+        console.log(response)
+        const affected_row = await OTP.destroy({
+            where: {
+                email: customer.email
+            }
+        })
+    
+        const otp_item = await OTP.create({
+            user_id: customer.customer_id,
+            email: customer.email,
+            otp_code: OTPCode,
+            expire: expired_time
+        }) 
+    
+    })  
+}
+
+const generateNewOTPCode = async (req,res,next) => {
+
+    const { otp_email } =  req.body;
+    var date = new Date();
+    const expired_time = new Date(date.setMinutes(date.getMinutes() + 5)).toISOString().slice(0, 19).replace('T', ' ');
+    const OTPCode = Math.floor(1000 + Math.random() * 9000).toString();
+
+    const mailOptionsSend = getMailOptionsSend(otp_email, `${process.env.STORE_NAME} - OTP Confirmation`, OTPCode)
+
+    transporter.sendMail(mailOptionsSend, async (error, info) => {
+       
+        if(error){
+
+            console.log(error)
+            res.status(404).json({
+                success: false,
+                message: "There was a problem generating your OTP Code.",
+            })
+        }
+        else{
+            
+            console.log(info.response)
+
+            const old_otp_item = await OTP.findOne({
+                where: {
+                    email: otp_email
+                }
+            })
+        
+            await old_otp_item.update({
+                otp_code: OTPCode,
+                expire: expired_time
+            })
+    
+            await old_otp_item.save();
+    
+            res.status(200).json({
+                success: true,
+                message: "Your Newly Generated OTP Code has been Sent",
+            })
+        }       
+    })  
+
+}
+
+const verifyOTPCode = async (req,res,next) => {
+
+    const { otp_code } =  req.body;
+    var date = new Date();
+    const expired_time = new Date(date.setHours(date.getHours() + 24)).toISOString().slice(0, 19).replace('T', ' ');
+    const options = {
+        httpOnly: true,
+        expires: new Date(
+            Date.now() + 7 * 24 * 60 * 60 * 1000 // 7 days
+        )
+    }
+
+    const OTPItem = await OTP.findOne({
+        where: {
+            otp_code: otp_code,
+            expire: {
+                [Op.gt]: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            }
+        }
+    })
+
+    if(OTPItem){
 
         const customer_login_token = crypto.randomBytes(16).toString("hex");
         const session = Session.create({
-            email: request.customer_email,
+            email: OTPItem.email,
             data: JSON.stringify({
                 language: "en",
                 currency: "USD",
-                customer_id: customer.customer_id
+                customer_id: OTPItem.user_id
             }),
             is_customer: 1,
             token: customer_login_token,
@@ -180,12 +287,35 @@ const customerRegisterPOST = async (req,res,next) => {
             message: "Register Sucessfully. Logging in...",
             language: "en",
             currency: "USD",
-            customer_login_token: customer_login_token,
-            address: address_item 
+            customer_login_token: customer_login_token
         })
-   
-   }
-   
-}   
+    }
+    else{
 
-module.exports = {customerLogin, customerRegisterGET, customerRegisterPOST}
+        const OTPCode = await OTP.findOne({
+            where: {
+                otp_code: otp_code,
+            }
+        })
+
+        if(OTPCode){
+
+            res.status(404).json({
+                status: false,
+                message: "Your OTP Code has Expired",
+                
+            })
+        }
+        else{
+
+            res.status(404).json({
+                status: false,
+                message: "Your OTP Code Does not Exist",
+                
+            })
+        }
+    }
+
+}
+
+module.exports = {customerLogin, customerRegisterGET, customerRegisterPOST, verifyOTPCode, generateNewOTPCode}

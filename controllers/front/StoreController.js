@@ -9,18 +9,59 @@ const StockStatus = require("../../models/admin/StockStatus");
 const TaxClass = require("../../models/admin/TaxClass");
 const ProductToCategory = require("../../models/admin/ProductToCategory");
 const OrderProduct = require("../../models/admin/OrderProduct");
-const { Sequelize } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 
 // get
 const getStoreItems = async (req,res,next) => {
 
    var start  = parseInt((req.query.start == undefined || parseInt(req.query.start) < 1) ? 1 : req.query.start);
    var end = parseInt((req.query.end == 0 || req.query.end == null || parseInt(req.query.end) < parseInt(req.query.start)) ? 0 : req.query.end)
-   
+   var searchParam = req.query.search
+   var category_id = req.query.category
+   var products;
 
-   const products = await Product.findAll({
-      include: [productDescriptionAssoc],
-   })
+   if(category_id == 0){
+      
+      products = await Product.findAll({
+         include: [{
+            model: ProductDescription,
+            as: "product_description_assoc",
+            where: {
+               name: {
+                  [Op.like]: `%${searchParam}%`
+               },
+               
+            }
+         }]
+      })
+   }
+   else{
+
+      const product_to_category = await ProductToCategory.findAll({
+         attributes: ["product_id"],
+         where: {
+            category_id: category_id
+         }
+      })
+
+      const product_ids = product_to_category.map(product => product.product_id)
+
+      products = await Product.findAll({
+         where: {
+            product_id: product_ids
+         },
+         include: [{
+            model: ProductDescription,
+            as: "product_description_assoc",
+            where: {
+               name: {
+                  [Op.like]: `%${searchParam}%`
+               },
+               
+            }
+         }]
+      })
+   }
 
    await Promise.all(products.map(async (product) => {
 

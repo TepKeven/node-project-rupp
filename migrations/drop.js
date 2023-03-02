@@ -22,6 +22,7 @@ const OrderStatus = require("../models/admin/OrderStatus")
 const Payment = require("../models/admin/Payment")
 const Shipment = require("../models/admin/Shipment")
 const Session = require("../models/admin/Session")
+const OTP = require("../models/admin/OTP")
 
 database
   .drop()

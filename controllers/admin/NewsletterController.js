@@ -37,6 +37,8 @@ const sendMaillEveryone  = async (request) => {
 
    const mailOptions = getMailOptionsSend(customer_emails, request.newsletter_subject, request.newsletter_message)
 
+   // console.log(request.newsletter_message.replace(new RegExp("^<p>|</p>"), '').substring(1,10))
+
    return await transporter.sendMail(mailOptions);
 
 }
