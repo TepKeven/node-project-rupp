@@ -29,7 +29,8 @@ const userLogin = async (req,res,next) => {
 
     const user = await User.findOne({
         where: {
-            email: login_email
+            email: login_email,
+            status: 1
         }
     })
 
@@ -83,4 +84,53 @@ const userLogin = async (req,res,next) => {
     }
 }
 
-module.exports = {userLogin}
+const userLogout = async (req,res,next) => {
+
+    if(req.cookies.login_token){
+        
+        const login_token = await Session.findOne({
+            where: {
+                token: req.cookies.login_token,
+                is_customer: 0
+            }
+        })
+
+        if(login_token){
+
+            res.clearCookie("login_token");
+
+            const affected_row = await Session.destroy({
+
+                where: {
+                    token: req.cookies.login_token,
+                    is_customer: 0
+                }
+            })
+
+            res.status(200).json({
+                success: true,
+                message: "Logout Successfully",
+                affected_row: affected_row
+            })
+        }
+
+        else{
+
+            res.status(404).json({
+                success: false,
+                message: "Session Does not Exist"
+            })
+        }
+    }
+
+    else{
+
+        res.status(404).json({
+            success: true,
+            message: "You are not logged in"
+        })
+    }
+
+}
+
+module.exports = {userLogin, userLogout}

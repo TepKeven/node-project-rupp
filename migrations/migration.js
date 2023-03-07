@@ -23,6 +23,9 @@ const Payment = require("../models/admin/Payment")
 const Shipment = require("../models/admin/Shipment")
 const Session = require("../models/admin/Session")
 const OTP = require("../models/admin/OTP")
+const Information = require("../models/admin/Information")
+const InformationDescription = require("../models/admin/InformationDescription");
+const Setting = require("../models/admin/Setting");
 
 Customer.hasMany(Order, {
   foreignKey: {
@@ -55,6 +58,14 @@ Category.hasMany(CategoryDescription, {
 Product.hasMany(ProductDescription,{
   foreignKey: {
     name: "product_id"
+  },
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE"
+})
+
+Information.hasMany(InformationDescription,{
+  foreignKey: {
+    name: "information_id"
   },
   onDelete: "CASCADE",
   onUpdate: "CASCADE"
@@ -131,6 +142,12 @@ Payment.hasMany(Order,{
 Shipment.hasMany(Order,{
   foreignKey: {
     name: "shipping_id"
+  },
+})
+
+OrderStatus.hasMany(Setting, {
+  foreignKey: {
+    name: "order_status_id"
   },
 })
 

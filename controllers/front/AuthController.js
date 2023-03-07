@@ -33,7 +33,8 @@ const customerLogin = async (req,res,next) => {
 
     const customer = await Customer.findOne({
         where: {
-            email: customer_login_email
+            email: customer_login_email,
+            status: 1
         }
     })
 
@@ -122,6 +123,7 @@ const customerRegisterPOST = async (req,res,next) => {
    emailCheck = await Customer.findOne({
         where: {
             email: request.customer_email,
+            status: 1,
         }
    })
 
@@ -135,6 +137,13 @@ const customerRegisterPOST = async (req,res,next) => {
 
    }
    else{
+
+        const affected_row = await Customer.destroy({
+            where: {
+                email: request.customer_email,
+                status: 0
+            }
+        })
 
         const customer = await Customer.create({
             customer_group_id: 1,
@@ -248,7 +257,7 @@ const generateNewOTPCode = async (req,res,next) => {
 
 const verifyOTPCode = async (req,res,next) => {
 
-    const { otp_code } =  req.body;
+    const { otp_code, otp_email } =  req.body;
     var date = new Date();
     const expired_time = new Date(date.setHours(date.getHours() + 24)).toISOString().slice(0, 19).replace('T', ' ');
     const options = {
@@ -268,6 +277,15 @@ const verifyOTPCode = async (req,res,next) => {
     })
 
     if(OTPItem){
+
+        const customer = await Customer.findOne({
+            where: {
+                email: otp_email
+            }
+        })
+
+        customer.status = 1;
+        await customer.save();
 
         const customer_login_token = crypto.randomBytes(16).toString("hex");
         const session = Session.create({
@@ -318,4 +336,53 @@ const verifyOTPCode = async (req,res,next) => {
 
 }
 
-module.exports = {customerLogin, customerRegisterGET, customerRegisterPOST, verifyOTPCode, generateNewOTPCode}
+const customerLogout = async (req,res,next) => {
+
+    if(req.cookies.customer_login_token){
+        
+        const login_token = await Session.findOne({
+            where: {
+                token: req.cookies.customer_login_token,
+                is_customer: 1
+            }
+        })
+
+        if(login_token){
+
+            res.clearCookie("customer_login_token");
+
+            const affected_row = await Session.destroy({
+
+                where: {
+                    token: req.cookies.customer_login_token,
+                    is_customer: 1
+                }
+            })
+
+            res.status(200).json({
+                success: true,
+                message: "Logout Successfully",
+                affected_row: affected_row
+            })
+        }
+
+        else{
+
+            res.status(404).json({
+                success: false,
+                message: "Session Does not Exist"
+            })
+        }
+    }
+
+    else{
+
+        res.status(404).json({
+            success: true,
+            message: "You are not logged in"
+        })
+    }
+
+}
+
+module.exports = {customerLogin, customerRegisterGET, customerRegisterPOST, verifyOTPCode, generateNewOTPCode, customerLogout}

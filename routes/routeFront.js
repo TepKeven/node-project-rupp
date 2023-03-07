@@ -9,6 +9,10 @@ const ContactController = require("../controllers/front/ContactController")
 const AuthController = require("../controllers/front/AuthController")
 const NavController = require("../controllers/front/NavController")
 const CustomerController = require("../controllers/front/CustomerController")
+const InformationController = require("../controllers/front/InformationController")
+const CategoryController = require("../controllers/front/CategoryController")
+const FooterController = require("../controllers/front/FooterController")
+
 const FrontAuth = require("../middleware/front/Auth");
 const multer = require("multer");
 const routerFront = express.Router();
@@ -61,12 +65,18 @@ routerFront.get("/slideshow",SlideshowController.getSlideshows);
 routerFront.get("/product", ProductController.getProducts); 
 routerFront.get("/product/:product_id", ProductController.getProductById);
 
+// Category
+routerFront.get("/category/:category_id", CategoryController.getProductsByCategoryID); 
+
 // Orders
 routerFront.post("/order/new/get", orderMulter.single("order_image"), OrderController.addOrderGET); 
 routerFront.post("/order/new", orderMulter.single("order_image"), OrderController.addOrderPOST);
 
 // Cart
 routerFront.post("/cart", cartMulter.single("cart_image"), CartController.getCarts)
+
+// Footer
+routerFront.get("/footer", FooterController.getFooterItems)
 
 // Store
 routerFront.get("/store", StoreController.getStoreItems)
@@ -77,12 +87,19 @@ routerFront.post("/contact", contactMulter.none(), ContactController.sendMailAdm
 // Login
 routerFront.post("/login", customerMulter.single("customer_image"), AuthController.customerLogin)
 
+// Logout
+routerFront.post("/logout", customerMulter.single("customer_image"), AuthController.customerLogout)
+
 // Register
 routerFront.get("/register",AuthController.customerRegisterGET);
 routerFront.post("/register", customerMulter.single("customer_image"), AuthController.customerRegisterPOST)
 
+// OTP
 routerFront.post("/getnewotp", customerMulter.none(), AuthController.generateNewOTPCode)
 routerFront.post("/verifyotp", customerMulter.none(), AuthController.verifyOTPCode)
+
+// Contact
+routerFront.get("/page/:page_id_name", InformationController.getInformationPageByID)
 
 // Middleware
 // routerFront.use(FrontAuth.checkAuthValidCustomer)

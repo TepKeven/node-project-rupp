@@ -20,7 +20,7 @@ const getDashboardData = async (req,res,next) => {
         where: {
             is_customer: 1,
             expire: {
-                [Op.lt]: new Date().toISOString().slice(0, 19).replace('T', ' ')
+                [Op.gt]: new Date().toISOString().slice(0, 19).replace('T', ' ')
             }
         }
     })

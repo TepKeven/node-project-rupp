@@ -13,6 +13,8 @@ const AuthController = require("../controllers/admin/AuthController")
 const SlideshowController = require("../controllers/admin/SlideshowController")
 const DashboardController = require("../controllers/admin/DashboardController")
 const NewsletterController = require("../controllers/admin/NewsletterController")
+const InformationController = require("../controllers/admin/InformationController")
+const SettingController = require("../controllers/admin/SettingController")
 const AdminAuth = require("../middleware/admin/Auth");
 
 const getMulterStorage = (destination_dir) => {
@@ -28,6 +30,35 @@ const getMulterStorage = (destination_dir) => {
     })
 
     return storage;
+}
+
+const getSettingStorage = (destination_dir) => {
+
+  var settingStorage = multer.diskStorage({
+
+    destination: function (req, file, cb) {
+  
+        if (file.fieldname === 'setting_store_image') {
+            cb(null, destination_dir + '/image');
+        }
+  
+        else if (file.fieldname === 'setting_store_logo') {
+            cb(null, destination_dir + '/logo');
+        }
+
+        else if(file.fieldname === "setting_store_icon"){
+            cb(null, destination_dir + '/icon');
+        }
+        
+    },
+  
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname))
+    }
+  });
+
+  return settingStorage;
+
 }
 
 var categoryMulter = multer(
@@ -62,6 +93,10 @@ var newsletterMulter = multer({
   storage: getMulterStorage("./assets/images/newsletter")
 })
 
+var settingMulter = multer({
+  storage: getSettingStorage("./assets/images/setting")
+})
+
 routerAdmin.post("/login", userMulter.single("user_image"), AuthController.userLogin)
 
 // Middleware
@@ -72,6 +107,9 @@ routerAdmin.get("/dashboard", DashboardController.getDashboardData)
 
 // Sidebar
 routerAdmin.get("/sidebar", SidebarController.getSidebarItems)
+
+// Logout
+routerAdmin.post("/logout", AuthController.userLogout)
 
 // Category
 routerAdmin.get("/category",CategoryController.getCategories);
@@ -129,7 +167,18 @@ routerAdmin.get("/slideshow/edit/:slideshow_id",SlideshowController.getSlideshow
 routerAdmin.post("/slideshow/edit/:slideshow_id",slideshowMulter.single("slideshow_image"), SlideshowController.editSlideshowPOST)
 routerAdmin.post("/slideshow/delete",  SlideshowController.deleteSlideshows)
 
+// Information Pages
+routerAdmin.get("/information",InformationController.getInformationPages)
+routerAdmin.post("/information/new", InformationController.addInformationPagePOST)
+routerAdmin.get("/information/edit/:page_id",InformationController.getInformationPageByID)
+routerAdmin.post("/information/edit/:page_id", InformationController.editInformationPage)
+routerAdmin.post("/information/delete",  InformationController.deleteInformationPages)
+
 // Newsletter 
 routerAdmin.post("/newsletter/",newsletterMulter.single("newsletter_image"), NewsletterController.sendMailType)
+
+// Setting
+routerAdmin.get("/setting/", SettingController.getWebsiteSetting)
+routerAdmin.post("/setting/edit",settingMulter.fields([{ name: 'setting_store_image', maxCount: 1 }, { name: 'setting_store_logo', maxCount: 1 }, { name: 'setting_store_icon', maxCount: 1 }]), SettingController.editWebsiteSetting)
 
 module.exports=routerAdmin;

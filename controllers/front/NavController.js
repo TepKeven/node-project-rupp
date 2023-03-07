@@ -1,5 +1,5 @@
 const Product = require("../../models/admin/Product")
-const {productDescriptionAssoc, orderProductAssoc, categoryDescriptionAssoc} = require("../mainController")
+const {productDescriptionAssoc, orderProductAssoc, categoryDescriptionAssoc, informationDescriptionAssoc} = require("../mainController")
 const TaxClass = require("../../models/admin/TaxClass");
 const Order = require("../../models/admin/Order");
 const Customer = require("../../models/admin/Customer");
@@ -11,6 +11,7 @@ const Shipment = require("../../models/admin/Shipment");
 const OrderStatus = require("../../models/admin/OrderStatus");
 const OrderProduct = require("../../models/admin/OrderProduct");
 const Category = require("../../models/admin/Category");
+const Information = require("../../models/admin/Information");
 const date = new Date();
 
 
@@ -49,12 +50,21 @@ const getNavItems = async (req,res,next) => {
     // Category Items 
     const categories = await Category.findAll({
         include: [categoryDescriptionAssoc],
-        limit: 8,
+    })
+
+    // Information Items (5)
+    const information_pages = await Information.findAll({
+        order: [
+            ['sort_order', 'ASC'],
+        ],
+        include: [informationDescriptionAssoc],
+        limit: 5
     })
 
     res.status(200).json({
         carts: products || [],
-        categories: categories
+        pages: information_pages || [],
+        categories: categories || []
     })
    
 }

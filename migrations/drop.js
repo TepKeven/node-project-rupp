@@ -23,6 +23,9 @@ const Payment = require("../models/admin/Payment")
 const Shipment = require("../models/admin/Shipment")
 const Session = require("../models/admin/Session")
 const OTP = require("../models/admin/OTP")
+const Information = require("../models/admin/Information")
+const InformationDescription = require("../models/admin/InformationDescription")
+const Setting = require("../models/admin/Setting");
 
 database
   .drop()

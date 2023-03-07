@@ -1,5 +1,7 @@
 const Category = require("../models/admin/Category");
 const CategoryDescription = require("../models/admin/CategoryDescription");
+const Information = require("../models/admin/Information");
+const InformationDescription = require("../models/admin/InformationDescription");
 const Manufacturer = require("../models/admin/Manufacturer");
 const Order = require("../models/admin/Order");
 const OrderProduct = require("../models/admin/OrderProduct");
@@ -37,5 +39,15 @@ const orderProductAssoc = Order.hasMany(OrderProduct,{
   onDelete: "CASCADE",
   onUpdate: "CASCADE"
 })
+
+// Information has many InformationDescription
+const informationDescriptionAssoc = Information.hasMany(InformationDescription,{
+  foreignKey: {
+    name: "information_id"
+  },
+  as: "information_description_assoc",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE"
+})
   
-module.exports = {categoryDescriptionAssoc, productDescriptionAssoc, orderProductAssoc}
+module.exports = {categoryDescriptionAssoc, productDescriptionAssoc, orderProductAssoc, informationDescriptionAssoc}
