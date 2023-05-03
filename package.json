@@ -22,6 +22,7 @@
     "sequelize-cli": "^6.5.2"
   },
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "node migrations/migration.js",
     "drop": "node migrations/drop.js"

@@ -4,7 +4,7 @@ const { Op } = require("sequelize");
 
 
 
-// get Product by id
+// get Page by id
 const getInformationPageByID = async  (req,res,next) => {
 
    var page_id_name = req.params.page_id_name

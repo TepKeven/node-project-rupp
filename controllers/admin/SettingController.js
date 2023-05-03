@@ -52,7 +52,6 @@ const editWebsiteSetting = async (req,res,next) => {
       // store_icon: request.setting_store_icon
    }
 
-
    if(files.setting_store_image != undefined){
 
       setting.image = files.setting_store_image[0].filename      
@@ -66,7 +65,7 @@ const editWebsiteSetting = async (req,res,next) => {
 
    if(files.setting_store_logo != undefined){
 
-      setting.store_logo = files.setting_store_logo.filename
+      setting.store_logo = files.setting_store_logo[0].filename
 
       if(fs.existsSync(prevStoreLogo)){
          fs.unlink(prevStoreLogo,(err) => {
@@ -77,7 +76,7 @@ const editWebsiteSetting = async (req,res,next) => {
 
    if(files.setting_store_icon != undefined){
 
-      setting.store_icon = files.setting_store_icon.filename
+      setting.store_icon = files.setting_store_icon[0].filename
 
       if(fs.existsSync(prevStoreIcon)){
          fs.unlink(prevStoreIcon,(err) => {
